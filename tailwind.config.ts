@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import type { Config } from "tailwindcss";
 
-const withMT = require("@material-tailwind/html/utils/withMT");
+const withMT = require("@material-tailwind/react/utils/withMT");
 
 const config: Config = withMT({
     content: [
@@ -10,7 +10,11 @@ const config: Config = withMT({
         "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
         "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     ],
-    theme: {},
+    theme: {
+        backgroundImage: {
+            "background-image": "url('/images/background.jpg')",
+        },
+    },
     plugins: [],
 });
 export default config;

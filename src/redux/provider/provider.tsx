@@ -2,7 +2,7 @@
 
 import { Provider } from "react-redux";
 import store from "@/redux/store";
-// import ProtectedAuth from "@/components/global/ProtectedAuth/ProtectedAuth";
+import ProtectedRoute from "@/components/global/protected-route/protected-route";
 
 interface ReduxProviderProps {
     children: React.ReactNode;
@@ -11,8 +11,7 @@ interface ReduxProviderProps {
 export default function ReduxProvider({ children }: ReduxProviderProps) {
     return (
         <Provider store={store}>
-            {/* <ProtectedAuth>{children}</ProtectedAuth> */}
-            {children}
+            <ProtectedRoute>{children}</ProtectedRoute>
         </Provider>
     );
 }

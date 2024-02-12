@@ -1,0 +1,94 @@
+/* eslint-disable no-lonely-if */
+
+"use client";
+
+import { useLayoutEffect, useRef } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/redux/store";
+import { loginSuccess, loadingSuccess } from "@/redux/slices/authSlices";
+import axiosClient from "@/utils/axiosClient/axiosClient";
+import { USER_ROLE } from "@/utils/constant/constant";
+import LoadingPage from "../loading/LoadingPage";
+
+export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
+    const router = useRouter();
+    const pathname = usePathname();
+    const dispatch = useDispatch();
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const isLoading = useSelector((state: RootState) => state.auth.isLoading);
+    const prevPathname = useRef<string>(pathname);
+    const user = useSelector((state: RootState) => state.auth.user);
+    // Get user profile data
+    const getProfile = async () => {
+        try {
+            const res = await axiosClient.get("/profile");
+            if (res.status === 200) {
+                dispatch(loginSuccess(res.data.user));
+                if (pathname === "/login") {
+                    // Redirect to home page if user is already logged in
+                    // If admin, redirect to admin page instead push to billing page
+                    if (res.data.user.role === USER_ROLE.ADMIN) {
+                        router.push("/admin");
+                    } else {
+                        router.push("/billing");
+                    }
+                } else {
+                    // If pathname is / and user is admin, redirect to admin page
+                    if (pathname === "/" && res.data.user.role === USER_ROLE.ADMIN) {
+                        router.push("/admin");
+                    } else if (pathname === "/" && res.data.user.role === USER_ROLE.USER) {
+                        router.push("/billing");
+                    } else {
+                        // If not /, check if user is accessing admin page and is not admin
+                        if (pathname.includes("/admin") && res.data.user.role !== USER_ROLE.ADMIN) {
+                            router.push("/billing");
+                        } else dispatch(loadingSuccess());
+                    }
+                }
+            } else {
+                throw new Error("Failed to get user profile");
+            }
+        } catch (error) {
+            // If error, redirect to login page
+            if (pathname === "/login") {
+                dispatch(loadingSuccess());
+            } else {
+                router.replace("/login");
+            }
+        }
+    };
+
+    // Get profile when component is mounted
+    useLayoutEffect(() => {
+        getProfile();
+    }, []);
+
+    // Perform check if the pathname is changed (user navigates to another page)
+    useLayoutEffect(() => {
+        // Check if pathname is changed (different from previous pathname)
+        if (pathname !== prevPathname.current) {
+            if (pathname === "/" && isAuthenticated && user?.role === USER_ROLE.ADMIN) {
+                router.push("/admin");
+            } else if (pathname === "/" && isAuthenticated && user?.role === USER_ROLE.USER) {
+                router.push("/billing");
+            } else {
+                // If pathname is /admin and user is not admin, redirect to billing page
+                if (
+                    pathname.includes("/admin") &&
+                    isAuthenticated &&
+                    user?.role !== USER_ROLE.ADMIN
+                ) {
+                    router.push("/billing");
+                } else dispatch(loadingSuccess());
+            }
+        }
+        // Update previous pathname
+        prevPathname.current = pathname;
+    }, [pathname, isAuthenticated]);
+    // If isLoading is true, return Loading Page
+    if (isLoading) {
+        return <LoadingPage />;
+    }
+    return children;
+}
