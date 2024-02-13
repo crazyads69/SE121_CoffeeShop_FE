@@ -2,7 +2,7 @@ import { Alert } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { RootState } from "@/redux/store";
-import { clearMessage } from "@/redux/slices/alertSlice";
+import { clearMessage } from "@/redux/slices/alert-slice";
 
 interface AlertMessageProps {
     className: string;

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { setError } from "@/redux/slices/alertSlice";
+import { setError } from "@/redux/slices/alert-slice";
 import { RootState } from "@/redux/store";
 import PostLogin from "@/api/auth/post-login";
 

@@ -6,8 +6,8 @@ import { useLayoutEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
-import { loginSuccess, loadingSuccess } from "@/redux/slices/authSlices";
-import axiosClient from "@/utils/axiosClient/axiosClient";
+import { loginSuccess, loadingSuccess } from "@/redux/slices/auth-slice";
+import axiosClient from "@/utils/axios-client/axios-client";
 import { USER_ROLE } from "@/utils/constant/constant";
 import LoadingPage from "../loading/LoadingPage";
 
