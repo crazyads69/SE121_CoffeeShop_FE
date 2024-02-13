@@ -7,7 +7,7 @@ import { USER_ROLE } from "@/utils/constant/constant";
 export default async function PostLogout(router: AppRouterInstance, dispatch: Dispatch<AnyAction>) {
     try {
         const res = await axiosClient.post("/logout");
-        if (res.status === 200) {
+        if (res.status === 204) {
             localStorage.removeItem("ACCESS_TOKEN");
             router.push("/login");
         } else if (res.data.message) {

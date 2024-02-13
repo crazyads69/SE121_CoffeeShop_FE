@@ -10,12 +10,12 @@ import AlertMessage from "../../components/global/alert/alert";
 import ProfileButton from "@/components/global/profile-button/profile-button";
 import { USER_ROLE } from "@/utils/constant/constant";
 
-interface AdminLayoutProps {
+interface MainLayoutProps {
     children: React.ReactNode;
     className?: string;
 }
 
-export default function AdminLayout({ children, className }: AdminLayoutProps) {
+export default function MainLayout({ children, className }: MainLayoutProps) {
     const [showAccountModal, setShowAccountModal] = useState<boolean>(false);
     const user = useSelector((state: RootState) => state.auth.user);
     return (

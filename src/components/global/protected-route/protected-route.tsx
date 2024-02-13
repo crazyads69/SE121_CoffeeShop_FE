@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -19,29 +19,30 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     const isLoading = useSelector((state: RootState) => state.auth.isLoading);
     const prevPathname = useRef<string>(pathname);
     const user = useSelector((state: RootState) => state.auth.user);
+
     // Get user profile data
     const getProfile = async () => {
         try {
             const res = await axiosClient.get("/profile");
             if (res.status === 200) {
-                dispatch(loginSuccess(res.data.user));
+                dispatch(loginSuccess(res.data));
                 if (pathname === "/login") {
                     // Redirect to home page if user is already logged in
                     // If admin, redirect to admin page instead push to billing page
-                    if (res.data.user.role === USER_ROLE.ADMIN) {
+                    if (res.data.role === USER_ROLE.ADMIN) {
                         router.push("/admin");
                     } else {
                         router.push("/billing");
                     }
                 } else {
                     // If pathname is / and user is admin, redirect to admin page
-                    if (pathname === "/" && res.data.user.role === USER_ROLE.ADMIN) {
+                    if (pathname === "/" && res.data.role === USER_ROLE.ADMIN) {
                         router.push("/admin");
-                    } else if (pathname === "/" && res.data.user.role === USER_ROLE.USER) {
+                    } else if (pathname === "/" && res.data.role === USER_ROLE.USER) {
                         router.push("/billing");
                     } else {
                         // If not /, check if user is accessing admin page and is not admin
-                        if (pathname.includes("/admin") && res.data.user.role !== USER_ROLE.ADMIN) {
+                        if (pathname.includes("/admin") && res.data.role !== USER_ROLE.ADMIN) {
                             router.push("/billing");
                         } else dispatch(loadingSuccess());
                     }
@@ -54,7 +55,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
             if (pathname === "/login") {
                 dispatch(loadingSuccess());
             } else {
-                router.replace("/login");
+                router.push("/login");
             }
         }
     };
@@ -85,7 +86,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
         }
         // Update previous pathname
         prevPathname.current = pathname;
-    }, [pathname, isAuthenticated]);
+    }, [pathname, isAuthenticated, user]);
     // If isLoading is true, return Loading Page
     if (isLoading) {
         return <LoadingPage />;
