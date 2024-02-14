@@ -26,6 +26,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
             const res = await axiosClient.get("/profile");
             if (res.status === 200) {
                 dispatch(loginSuccess(res.data));
+                localStorage.setItem("user", JSON.stringify(res.data));
                 if (pathname === "/login") {
                     // Redirect to home page if user is already logged in
                     // If admin, redirect to admin page instead push to billing page

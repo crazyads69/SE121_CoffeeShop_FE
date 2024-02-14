@@ -1,9 +1,11 @@
+/* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { use, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { use, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ProfileDropdown from "./profile-dropdown";
 import { RootState } from "@/redux/store";
+import { loginSuccess } from "@/redux/slices/auth-slice";
 
 interface ProfileButtonProps {
     setShowAccountModal: (showAccountModal: boolean) => void;
@@ -11,6 +13,15 @@ interface ProfileButtonProps {
 
 export default function ProfileButton({ setShowAccountModal }: ProfileButtonProps) {
     const user = useSelector((state: RootState) => state.auth.user);
+    const user_data = localStorage.getItem("user");
+    const dispatch = useDispatch();
+    // Check if user_data exists in local storage and dispatch loginSuccess action to update user state again
+    useEffect(() => {
+        if (user_data) {
+            dispatch(loginSuccess(JSON.parse(user_data)));
+        }
+    }, []);
+
     // Add ref to handle click outside
     const [showDropdown, setShowDropdown] = useState<boolean>(false);
     const handleClicked = () => {

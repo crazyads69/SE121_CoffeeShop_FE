@@ -17,6 +17,7 @@ export default async function PostLogin(
         });
         if (res.status === 200) {
             localStorage.setItem("ACCESS_TOKEN", res.data.token);
+            localStorage.setItem("user", JSON.stringify(res.data.user));
             // Check role to redirect
             if (res.data.user.role === USER_ROLE.ADMIN) {
                 router.push("/admin");

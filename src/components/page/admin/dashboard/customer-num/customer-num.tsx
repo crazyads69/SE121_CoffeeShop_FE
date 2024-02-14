@@ -93,14 +93,14 @@ export default function CustomerNum(props: CustomerProps) {
         return filteredData;
     };
     return (
-        <div className="mt-[0.89rem] flex h-fit w-full flex-col justify-start rounded-md bg-white pb-[1.56rem] pl-[4.56rem] pr-[5.06rem] pt-[1.63rem] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+        <div className="mt-[0.89rem] mb-[2rem] flex h-fit w-full flex-col justify-start rounded-md bg-white px-[5.06rem] py-[1.63rem] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
             <div className="flex flex-row items-center justify-start">
                 <h1 className="select-none font-sans text-[1.5rem] font-bold">
                     SỐ LƯỢNG KHÁCH HÀNG TRONG
-                    {selectedOption === "30days" ? <span> 30</span> : <span>7</span>}
-                    NGÀY GẦN NHẤT:
+                    {`${selectedOption}` === "30days" ? <span> 30 </span> : <span> 7 </span>}
+                    NGÀY GẦN NHẤT:{` `}
                     <span className="text-1.5rem font-extrabold text-blue-900">
-                        {sum(filterData(data, selectedOption))}
+                        {` ${sum(filterData(data, selectedOption))}`}
                     </span>
                 </h1>
                 <div className="relative">

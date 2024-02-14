@@ -177,7 +177,7 @@ export default function TopProduct() {
     };
 
     return (
-        <div className="mb-[4rem] mt-[1.31rem] flex min-h-fit w-full flex-col justify-start rounded-[0.625rem] bg-white pb-[2.06rem] pl-[4.94rem] pr-[3.68rem] pt-[1.69rem] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+        <div className="mt-[0.89rem] flex min-h-fit w-full flex-col justify-start rounded-[0.625rem] bg-white pb-[2.06rem] pl-[4.94rem] pr-[3.68rem] pt-[1.69rem] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
             {/* <div className="mb-3 flex items-center">
                 <div className="top-products-header mr-3 select-none font-sans text-[1.5rem] font-bold">
                     Top Sản Phẩm Của Cửa Hàng

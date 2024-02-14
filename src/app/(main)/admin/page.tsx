@@ -1,6 +1,5 @@
 "use client";
 
-import MainLayout from "../layout";
 import RecentProfit from "@/components/page/admin/dashboard/recent-profit/recent-profit";
 import CustomerNum from "@/components/page/admin/dashboard/customer-num/customer-num";
 import TopProduct from "@/components/page/admin/dashboard/top-product/top-product";
@@ -8,7 +7,7 @@ import TodayResult from "@/components/page/admin/dashboard/today-result/today-re
 
 export default function Page() {
     return (
-        <MainLayout className="flex-col items-center justify-start px-[4.13rem] pt-[1.87rem]">
+        <div className="flex h-full w-full flex-col items-center justify-start px-[4.13rem] pt-[1.87rem]">
             <TodayResult
                 billCompleted={3}
                 billCompletedAmount={100000}
@@ -21,6 +20,6 @@ export default function Page() {
             <RecentProfit />
             <TopProduct />
             <CustomerNum />
-        </MainLayout>
+        </div>
     );
 }
