@@ -2,12 +2,14 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import alertSlice from "./slices/alert-slice";
-import authSlices from "./slices/auth-slice";
+import authSlice from "./slices/auth-slice";
+import productSlice from "./slices/product-slice";
 
 const store = configureStore({
     reducer: {
         alert: alertSlice,
-        auth: authSlices,
+        auth: authSlice,
+        product: productSlice,
     },
 });
 

@@ -52,3 +52,6 @@ export const NavBarItem = [
         requireAdmin: false,
     },
 ];
+
+// Define constant for product type
+export const productTypes = ["Đồ ăn", "Đồ uống", "Khác"];
