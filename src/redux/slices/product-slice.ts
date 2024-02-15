@@ -44,6 +44,7 @@ const productSlice = createSlice({
             action.payload.forEach((id) => {
                 state.products = state.products.filter((product) => product.id !== id);
             });
+            state.selectedProduct = [];
         },
         addProduct(state, action: PayloadAction<Product>) {
             state.products.push(action.payload);
