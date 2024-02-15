@@ -1,12 +1,14 @@
+/* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
+import { setActive } from "@material-tailwind/react/components/Tabs/TabsContext";
 import { RootState } from "@/redux/store";
 import { NavBarItem, USER_ROLE } from "@/utils/constant/constant";
 
-export default function AdminLayout() {
+export default function NavBar() {
     // State of current active nav bar item
     const user = useSelector((state: RootState) => state.auth.user);
     const [active, setActive] = useState("0");
@@ -24,7 +26,7 @@ export default function AdminLayout() {
         } else {
             setActive("0");
         }
-    }, []);
+    }, [pathname, newNavBarItem]);
     // Update nav bar item when user change role (admin or user)
     useEffect(() => {
         if (user?.role === USER_ROLE.ADMIN) {
@@ -36,10 +38,13 @@ export default function AdminLayout() {
 
     const handleClicked = (id: string, path: string) => {
         setActive(id);
-        router.push(path);
+        // Redirect to the clicked path, use window.location.href to force reload the page to reset the state
+        // NextJS does not reload target page when using router.push because it is client side navigation
+        // The page is already loaded so it does not reload and cache the state
+        window.location.href = path;
     };
     return (
-        <div className="sticky flex h-[3.125rem] w-screen flex-row items-center justify-center bg-[#3758F9] px-[16rem] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+        <div className=" flex h-[3.125rem] w-screen flex-row items-center justify-center bg-[#3758F9] px-[16rem] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
             {newNavBarItem.current.map((item) => (
                 <div
                     key={item.id}

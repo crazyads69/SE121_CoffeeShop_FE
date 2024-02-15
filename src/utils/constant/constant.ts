@@ -55,3 +55,10 @@ export const NavBarItem = [
 
 // Define constant for product type
 export const productTypes = ["Đồ ăn", "Đồ uống", "Khác"];
+
+// Define enum for product type
+export enum PRODUCT_TYPE {
+    FOOD = "Đồ ăn",
+    DRINK = "Đồ uống",
+    OTHER = "Khác",
+}

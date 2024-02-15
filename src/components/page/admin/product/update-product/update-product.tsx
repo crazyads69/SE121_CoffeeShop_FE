@@ -187,7 +187,7 @@ h-[36.3125rem] w-[54.0625rem] transform flex-col items-start justify-start overf
                         {/* Modal title */}
                         <div
                             className="flex h-[3.125rem] w-[53.9375rem] flex-row
-items-center justify-start border-b border-[#000000] pb-[0.56rem] pl-[1rem] pt-[0.69rem]"
+items-center justify-start border-b border-[#000000] pl-[1rem] py-[0.69rem]"
                         >
                             <h1 className="font-sans text-[1rem] font-bold">Cập nhật hàng hoá</h1>
                         </div>
@@ -255,7 +255,7 @@ rounded-md bg-white"
                                         placeholder="Nhập tên hàng hoá"
                                         className={`col-start-2 rounded-md border ${
                                             errorProductName ? "border-red-500" : "border-[#DFE4EA]"
-                                        } bg-white py-[0.75rem] pl-[1.25rem] pr-[1rem] placeholder:text-[rgba(0,0,0,0.55)]`}
+                                        } bg-white py-[0.75rem] px-[1.25rem] placeholder:text-[rgba(0,0,0,0.55)]`}
                                     />
                                     <h1 className="font-sans text-[1rem] font-medium">Giá bán: </h1>
                                     <input
@@ -269,7 +269,7 @@ rounded-md bg-white"
                                             errorProductPrice
                                                 ? "border-red-500"
                                                 : "border-[#DFE4EA]"
-                                        } bg-white py-[0.75rem] pl-[1.25rem] pr-[1rem] placeholder:text-[rgba(0,0,0,0.55)]`}
+                                        } bg-white py-[0.75rem] px-[1.25rem] placeholder:text-[rgba(0,0,0,0.55)]`}
                                     />
 
                                     {/* Product save button */}

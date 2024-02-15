@@ -4,6 +4,7 @@ import { Product } from "@/redux/slices/product-slice";
 import DeleteProductItem from "../delete-product/delete-product-item";
 import ProductImage from "../product-image/product-image";
 import UpdateProduct from "../update-product/update-product";
+import { formatImageURL, formatCurrency } from "@/utils/custom-functions/custom-functions";
 
 interface ProductDetailProps {
     product: Product | null;
@@ -15,13 +16,7 @@ export default function ProductDetail({ product, setShowProductDetail }: Product
     const [showDeleteProductModal, setShowDeleteProductModal] = useState<boolean>(false);
     // State for update product modal
     const [showUpdateProductModal, setShowUpdateProductModal] = useState<boolean>(false);
-    // Format product price to currency format: 1000000 => 1.000.000
-    const formatImageURL = (imageURL: string) => {
-        return process.env.REACT_APP_IMAGE_URL + imageURL;
-    };
-    const formatCurrency = (price: number) => {
-        return new Intl.NumberFormat("en-US").format(price);
-    };
+
     return (
         <div
             className="relative z-10 flex items-center justify-center overflow-hidden"

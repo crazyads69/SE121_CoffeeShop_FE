@@ -232,7 +232,7 @@ export const formatCurrency = (price: number) => {
 
 // Format image url to get image from server
 export const formatImageURL = (imageURL: string) => {
-    return process.env.REACT_APP_IMAGE_URL + imageURL;
+    return process.env.NEXT_PUBLIC_IMAGE_URL + imageURL;
 };
 
 // Convert date from "yyyy-mm-đ hh:mm:ss" to "dd/mm/yyyy"

@@ -89,7 +89,7 @@ export default function AddProduct({ setShowAddProductModal }: AddProductProps) 
         if (!file) return;
         // Check if file size is too large
         if (file.size > 1024 * 1024 * 2) {
-            dispatch(setError("Kích thước ảnh quá lớn!"));
+            dispatch(setError("Kích thước ảnh quá lớn"));
             return;
         }
         // Get image full path
@@ -177,7 +177,7 @@ h-[36.3125rem] w-[54.0625rem] transform flex-col items-start justify-start overf
                         {/* Modal title */}
                         <div
                             className="flex h-[3.125rem] w-[53.9375rem] flex-row
-items-center justify-start border-b border-[#000000] pb-[0.56rem] pl-[1rem] pt-[0.69rem]"
+items-center justify-start border-b border-[#000000] pl-[1rem] py-[0.69rem]"
                         >
                             <h1 className="font-sans text-[1rem] font-bold">Thêm hàng hoá</h1>
                         </div>
