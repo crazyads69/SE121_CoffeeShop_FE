@@ -4,7 +4,7 @@
 "use client";
 
 import { useSelector, useDispatch } from "react-redux";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { RootState } from "@/redux/store";
 import useGetProductTotalPage from "@/hooks/product/useGetProductTotalPage";
 import useGetProductList from "@/hooks/product/useGetProductList";
@@ -51,7 +51,7 @@ export default function Page() {
             newFilterProductsList = filterProductsByType(newFilterProductsList, productType);
 
         setFilterProductsList(newFilterProductsList);
-    }, [searchValue, filterProductsList, productType, products]);
+    }, [searchValue, productType, products]);
     return (
         <>
             {isLoadingProductList ? (

@@ -62,3 +62,14 @@ export enum PRODUCT_TYPE {
     DRINK = "Đồ uống",
     OTHER = "Khác",
 }
+
+// Const for status filter
+export const statusList = ["pending", "finish", "allStatus"];
+
+export const dateRange: { [key: string]: string } = {
+    allTime: "Mọi thời điểm",
+    yesterday: "Hôm qua",
+    threeDays: "3 ngày qua",
+    oneWeek: "1 tuần qua",
+    oneMonth: "1 tháng qua",
+};

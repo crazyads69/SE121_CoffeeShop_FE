@@ -4,12 +4,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import alertSlice from "./slices/alert-slice";
 import authSlice from "./slices/auth-slice";
 import productSlice from "./slices/product-slice";
+import invoiceSlice from "./slices/invoice-slice";
 
 const store = configureStore({
     reducer: {
         alert: alertSlice,
         auth: authSlice,
         product: productSlice,
+        invoice: invoiceSlice,
     },
 });
 
