@@ -33,6 +33,8 @@ const customerSlice = createSlice({
                 (customer) => customer.id === action.payload.id,
             );
             state.customers[index] = action.payload;
+            // Make sure the state is updated
+            state.customers = [...state.customers];
         },
         addCustomer(state, action: PayloadAction<Customer>) {
             state.customers.push(action.payload);

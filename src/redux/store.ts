@@ -6,6 +6,7 @@ import authSlice from "./slices/auth-slice";
 import customerSlice from "./slices/customer-slice";
 import productSlice from "./slices/product-slice";
 import invoiceSlice from "./slices/invoice-slice";
+import staffSlice from "./slices/staff-slice";
 
 const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
         customer: customerSlice,
         product: productSlice,
         invoice: invoiceSlice,
+        staff: staffSlice,
     },
 });
 

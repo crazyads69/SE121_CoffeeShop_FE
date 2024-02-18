@@ -24,10 +24,12 @@ export default async function DeleteCustomers(
             setShowDeleteCustomerModal(false);
         } else if (res.data.message) {
             dispatch(setError(res.data.message));
+            setShowDeleteCustomerModal(false);
         } else {
             throw new Error("Có lỗi xảy ra khi xoá khách hàng");
         }
     } catch (error) {
         dispatch(setError("Có lỗi xảy ra khi xoá khách hàng"));
+        setShowDeleteCustomerModal(false);
     }
 }

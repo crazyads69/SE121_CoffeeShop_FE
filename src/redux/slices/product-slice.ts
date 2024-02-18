@@ -32,9 +32,9 @@ const productSlice = createSlice({
         },
         updateProduct(state, action: PayloadAction<Product>) {
             const index = state.products.findIndex((product) => product.id === action.payload.id);
-            if (index !== -1) {
-                state.products[index] = action.payload;
-            }
+            state.products[index] = action.payload;
+            // Make sure the state is updated
+            state.products = [...state.products];
         },
         removeProduct(state, action: PayloadAction<string>) {
             state.products = state.products.filter((product) => product.id !== action.payload);

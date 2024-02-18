@@ -131,7 +131,7 @@ export default function UpdateProduct({ product, setShowUpdateProductModal }: Up
     // Handle save product
     const handleUpdateProduct = async () => {
         // Check if exist empty field then show error and do nothing
-        if (productName === "" || productPrice === "" || !imageFile) {
+        if (productName === "" || productPrice === "") {
             dispatch(setError("Vui lòng điền đầy đủ thông tin!"));
             if (productName === "") setErrorProductName(true);
             if (productPrice === "") setErrorProductPrice(true);
