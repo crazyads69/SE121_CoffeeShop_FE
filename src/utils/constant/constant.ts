@@ -73,3 +73,6 @@ export const dateRange: { [key: string]: string } = {
     oneWeek: "1 tuần qua",
     oneMonth: "1 tháng qua",
 };
+
+// Const for voucher type
+export const voucherTypeList = ["direct", "percent"];
