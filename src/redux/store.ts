@@ -3,6 +3,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import alertSlice from "./slices/alert-slice";
 import authSlice from "./slices/auth-slice";
+import checkoutSlice from "./slices/checkout-slice";
 import customerSlice from "./slices/customer-slice";
 import productSlice from "./slices/product-slice";
 import invoiceSlice from "./slices/invoice-slice";
@@ -13,6 +14,7 @@ const store = configureStore({
     reducer: {
         alert: alertSlice,
         auth: authSlice,
+        checkout: checkoutSlice,
         customer: customerSlice,
         product: productSlice,
         invoice: invoiceSlice,

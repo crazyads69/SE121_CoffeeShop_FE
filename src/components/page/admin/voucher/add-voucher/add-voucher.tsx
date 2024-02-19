@@ -252,33 +252,6 @@ export default function AddVoucherItem({ setShowAddVoucherModal }: AddVoucherIte
             setShowAddVoucherModal,
             dispatch,
         );
-        // axiosClient
-        //     .post("vouchers", {
-        //         voucher_code: voucherCode,
-        //         type: voucherType,
-        //         amount:
-        //             voucherType === "direct"
-        //                 ? parseInt(convertCurrencyToNumber(voucherAmount), 10)
-        //                 : parseInt(voucherAmount, 10),
-        //         quantity: parseInt(voucherQuantity, 10),
-        //         start_date: convertDateToUSFormat(voucherStartDate),
-        //         end_date: convertDateToUSFormat(voucherEndDate),
-        //     })
-        //     .then((res) => {
-        //         if (res.status === 200 || res.status === 201) {
-        //             dispatch(setSuccess("Thêm voucher thành công"));
-        //             setShowAddVoucherModal(false);
-        //             // Update product list after add new product after 2s
-        //             setTimeout(() => {
-        //                 window.location.reload();
-        //             }, 2000);
-        //         } else {
-        //             throw new Error("Có lỗi xảy ra khi thêm voucher");
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         dispatch(setError("Có lỗi xảy ra khi thêm voucher"));
-        //     });
     };
     return (
         <div
