@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Head } from "next/document";
 import ReduxProvider from "@/redux/provider/provider";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -16,7 +17,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
-            <link rel="icon" href="/favicon.ico" sizes="any" />
             <body className={inter.className}>
                 <ReduxProvider>{children}</ReduxProvider>
             </body>
