@@ -81,7 +81,7 @@ export default function Page() {
             {isLoadingProductList ? (
                 <LoadingPage />
             ) : (
-                <div className="flex w-full h-full relative flex-row items-start justify-start pb-[0.19rem] pl-[0.63rem] pr-[0.63rem] pt-[0.56rem]">
+                <div className="flex w-full h-full flex-row items-start justify-start pb-[0.19rem] pl-[0.63rem] pr-[0.63rem] pt-[0.56rem]">
                     {showConfirmationPaymentModal && (
                         <ConfirmPayment
                             showConfirmationPaymentModal={showConfirmationPaymentModal}

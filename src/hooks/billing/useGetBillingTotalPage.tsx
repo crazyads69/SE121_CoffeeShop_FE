@@ -10,15 +10,14 @@ export default function useGetBillingTotalPage() {
     const [totalPage, setTotalPage] = useState<number>(1);
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.auth.user);
-    const [endPoint, setEndPoint] = useState<string>("/invoices");
+    let endPoint = "/invoices";
 
-    useEffect(() => {
-        if (user?.role === USER_ROLE.ADMIN) {
-            setEndPoint("/invoices");
-        } else {
-            setEndPoint("/invoices-pending");
-        }
-    }, [user?.role]);
+    if (user?.role === USER_ROLE.ADMIN) {
+        endPoint = "/invoices";
+    } else {
+        endPoint = `/invoices-pending`;
+    }
+
     const fetchTotalPage = async () => {
         try {
             const res = await axiosClient.get(endPoint);

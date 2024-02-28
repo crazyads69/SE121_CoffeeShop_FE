@@ -39,7 +39,7 @@ export default function ProfileDropdown({
     return (
         <div
             ref={clickOutsideRef}
-            className="absolute right-0 top-0 z-40 mt-[3.1275rem] flex h-fit w-[11.125rem] flex-col items-center justify-start rounded-md border border-[#000000] bg-white shadow-[0px_1px_3px_0px_rgba(166,175,195,0.40)]"
+            className="absolute right-0 top-0 z-[200] mt-[3.1275rem] flex h-fit w-[11.125rem] flex-col items-center justify-start rounded-md border border-[#000000] bg-white shadow-[0px_1px_3px_0px_rgba(166,175,195,0.40)]"
         >
             <button
                 type="button"

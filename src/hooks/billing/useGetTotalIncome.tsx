@@ -13,15 +13,14 @@ export default function useGetTotalIncome() {
     const [totalIncome, setTotalIncome] = useState<number>(0);
     // Check user role to call the right API (admin call /invoices API, staff call /invoices-pending API)
     const user = useSelector((state: RootState) => state.auth.user);
-    const [endPoint, setEndPoint] = useState<string>("/invoices");
+    let endPoint = "/invoices";
 
-    useEffect(() => {
-        if (user?.role === USER_ROLE.ADMIN) {
-            setEndPoint("/invoices");
-        } else {
-            setEndPoint("/invoices-pending");
-        }
-    }, [user?.role]);
+    if (user?.role === USER_ROLE.ADMIN) {
+        endPoint = "/invoices";
+    } else {
+        endPoint = `/invoices-pending`;
+    }
+
     // Get all invoices
     let total = 0;
     const { totalPage, fetchTotalPage } = useGetBillingTotalPage();

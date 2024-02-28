@@ -6,17 +6,17 @@ import ReduxProvider from "@/redux/provider/provider";
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-    title: "Coffee Shop",
+    title: {
+        template: "%s | Coffee Shop",
+        default: "Coffee Shop",
+    },
     description: "Coffee Shop App",
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
+            <link rel="icon" href="/favicon.ico" sizes="any" />
             <body className={inter.className}>
                 <ReduxProvider>{children}</ReduxProvider>
             </body>

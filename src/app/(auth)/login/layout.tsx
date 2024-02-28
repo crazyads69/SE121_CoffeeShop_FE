@@ -1,5 +1,6 @@
 "use client";
 
+import { Metadata } from "next";
 import AlertMessage from "@/components/global/alert/alert";
 
 interface LoginLayoutProps {

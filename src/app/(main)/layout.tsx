@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -10,11 +10,11 @@ import AlertMessage from "../../components/global/alert/alert";
 import ProfileButton from "@/components/global/profile-button/profile-button";
 import { USER_ROLE } from "@/utils/constant/constant";
 
-interface MainLayoutProps {
+interface LayoutProps {
     children: React.ReactNode;
 }
 
-export default function MainLayout({ children }: MainLayoutProps) {
+export default function Layout({ children }: LayoutProps) {
     const [showAccountModal, setShowAccountModal] = useState<boolean>(false);
     const user = useSelector((state: RootState) => state.auth.user);
 
