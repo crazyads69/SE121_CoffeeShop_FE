@@ -157,6 +157,7 @@ items-center justify-between rounded-md bg-[#E10E0E] px-[1.75rem] py-[0.75rem]"
                 <UpdateVoucher
                     voucher={voucher as Voucher}
                     setShowUpdateVoucherModal={setShowUpdateVoucherModal}
+                    setShowVoucherDetail={setShowVoucherDetail}
                 />
             )}
 

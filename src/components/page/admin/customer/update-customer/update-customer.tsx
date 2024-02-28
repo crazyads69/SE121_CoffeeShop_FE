@@ -8,11 +8,13 @@ import { setError } from "@/redux/slices/alert-slice";
 export interface UpdateCustomerProps {
     customer: Customer;
     setShowUpdateCustomerModal: (showUpdateCustomerModal: boolean) => void;
+    setShowCustomerDetail: (showCustomerDetail: boolean) => void;
 }
 
 export default function UpdateCustomer({
     customer,
     setShowUpdateCustomerModal,
+    setShowCustomerDetail,
 }: UpdateCustomerProps) {
     // State for each input field
     const [name, setName] = useState<string>("");
@@ -29,7 +31,7 @@ export default function UpdateCustomer({
             setName(customer.name);
             setPhone(customer.phone_number);
         }
-    }, []);
+    }, [customer]);
     // Remove error when user type in input field
     useEffect(() => {
         if (nameError && nameRef.current) {
@@ -80,6 +82,7 @@ export default function UpdateCustomer({
             phone,
             customer,
             setShowUpdateCustomerModal,
+            setShowCustomerDetail,
             dispatch,
         );
     };

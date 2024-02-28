@@ -9,9 +9,14 @@ import PostUpdateStaff from "@/api/staff/post-update-staff";
 export interface UpdateStaffProps {
     staff: Staff;
     setShowUpdateStaffModal: (showUpdateStaffModal: boolean) => void;
+    setShowStaffDetail: (showStaffDetail: boolean) => void;
 }
 
-export default function UpdateStaff({ staff, setShowUpdateStaffModal }: UpdateStaffProps) {
+export default function UpdateStaff({
+    staff,
+    setShowUpdateStaffModal,
+    setShowStaffDetail,
+}: UpdateStaffProps) {
     // State for each input
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -122,6 +127,7 @@ export default function UpdateStaff({ staff, setShowUpdateStaffModal }: UpdateSt
             password,
             staff,
             setShowUpdateStaffModal,
+            setShowStaffDetail,
             dispatch,
         );
     };

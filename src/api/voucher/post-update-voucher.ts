@@ -12,6 +12,7 @@ export default async function PostUpdateVoucher(
     end_date: string,
     voucher: Voucher,
     setShowUpdateVoucherModal: (show: boolean) => void,
+    setShowVoucherDetail: (show: boolean) => void,
     dispatch: Dispatch<AnyAction>,
 ) {
     try {
@@ -28,6 +29,7 @@ export default async function PostUpdateVoucher(
             dispatch(updateVoucher(res.data));
             dispatch(setSuccess("Cập nhật voucher thành công"));
             setShowUpdateVoucherModal(false);
+            setShowVoucherDetail(false);
             setTimeout(() => {
                 window.location.reload();
             }, 2000);

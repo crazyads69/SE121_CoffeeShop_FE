@@ -10,6 +10,7 @@ export default async function PostUpdateStaff(
     password: string,
     staff: Staff,
     setShowUpdateStaffModal: (showUpdateStaffModal: boolean) => void,
+    setShowStaffDetail: (showStaffDetail: boolean) => void,
     dispatch: Dispatch<AnyAction>,
 ) {
     try {
@@ -28,10 +29,11 @@ export default async function PostUpdateStaff(
                 }),
             );
             setShowUpdateStaffModal(false);
+            setShowStaffDetail(false);
             dispatch(setSuccess("Cập nhật nhân viên thành công"));
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 2000);
         } else if (res.data.message) {
             dispatch(setError(res.data.message));
         } else {

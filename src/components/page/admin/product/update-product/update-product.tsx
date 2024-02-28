@@ -10,9 +10,14 @@ import PostUpdateProduct from "@/api/product/post-update-product";
 export interface UpdateProductProps {
     product: Product;
     setShowUpdateProductModal: (showUpdateProductModal: boolean) => void;
+    setShowProductDetail: (showProductDetail: boolean) => void;
 }
 
-export default function UpdateProduct({ product, setShowUpdateProductModal }: UpdateProductProps) {
+export default function UpdateProduct({
+    product,
+    setShowUpdateProductModal,
+    setShowProductDetail,
+}: UpdateProductProps) {
     const dispatch = useDispatch();
     // State for upload image file
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -146,6 +151,7 @@ export default function UpdateProduct({ product, setShowUpdateProductModal }: Up
             price,
             product,
             setShowUpdateProductModal,
+            setShowProductDetail,
             dispatch,
         );
     };

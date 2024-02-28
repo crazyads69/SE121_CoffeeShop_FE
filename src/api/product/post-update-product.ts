@@ -10,6 +10,7 @@ export default async function PostUpdateProduct(
     unitPrice: number,
     product: Product,
     setShowUpdateProductModal: (showUpdateProductModal: boolean) => void,
+    setShowProductDetail: (showProductDetail: boolean) => void,
     dispatch: Dispatch<AnyAction>,
 ) {
     try {
@@ -35,9 +36,10 @@ export default async function PostUpdateProduct(
             );
             // Close modal
             setShowUpdateProductModal(false);
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
+            setShowProductDetail(false);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 2000);
         } else if (res.data.message) {
             dispatch(setError(res.data.message));
         } else {

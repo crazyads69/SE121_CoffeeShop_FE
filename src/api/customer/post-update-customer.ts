@@ -9,6 +9,7 @@ export default async function PostUpdateCustomer(
     phone: string,
     customer: Customer,
     setShowUpdateCustomerModal: (showUpdateCustomerModal: boolean) => void,
+    setShowCustomerDetail: (showCustomerDetail: boolean) => void,
     dispatch: Dispatch<AnyAction>,
 ) {
     try {
@@ -29,9 +30,10 @@ export default async function PostUpdateCustomer(
             );
             // Close modal
             setShowUpdateCustomerModal(false);
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
+            setShowCustomerDetail(false);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 2000);
         } else if (res.data.message) {
             dispatch(setError(res.data.message));
         } else {

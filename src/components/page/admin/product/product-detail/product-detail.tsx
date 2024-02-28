@@ -141,6 +141,7 @@ items-center justify-between rounded-md bg-[#E10E0E] px-[1.75rem] py-[0.75rem]"
             {showUpdateProductModal === true && (
                 <UpdateProduct
                     product={product as Product}
+                    setShowProductDetail={setShowProductDetail}
                     setShowUpdateProductModal={setShowUpdateProductModal}
                 />
             )}

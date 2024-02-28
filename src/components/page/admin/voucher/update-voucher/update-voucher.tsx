@@ -14,11 +14,16 @@ import {
 export interface UpdateVoucherProps {
     voucher: Voucher;
     setShowUpdateVoucherModal: (show: boolean) => void;
+    setShowVoucherDetail: (show: boolean) => void;
 }
 
 const voucherTypeList = ["direct", "percent"];
 
-export default function UpdateVoucher({ voucher, setShowUpdateVoucherModal }: UpdateVoucherProps) {
+export default function UpdateVoucher({
+    voucher,
+    setShowUpdateVoucherModal,
+    setShowVoucherDetail,
+}: UpdateVoucherProps) {
     // State for hold voucher code
     const [voucherCode, setVoucherCode] = useState<string>("");
     // State for hold voucher type direct or percent
@@ -266,6 +271,7 @@ export default function UpdateVoucher({ voucher, setShowUpdateVoucherModal }: Up
             end_date,
             voucher,
             setShowUpdateVoucherModal,
+            setShowVoucherDetail,
             dispatch,
         );
     };
