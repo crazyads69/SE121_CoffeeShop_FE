@@ -64,7 +64,8 @@ export default function UpdateProduct({
             setProductName(product.name);
             // Get image file from product image URL
             setProductPrice(formatCurrency(product.unit_price));
-            setPreviewImage(formatImageURL(product.image));
+            // Make sure product image is not null then set preview image
+            if (product.image) setPreviewImage(formatImageURL(product.image));
         }
     }, []);
     // Handle remove error input when user type using ref
@@ -202,7 +203,7 @@ items-center justify-start border-b border-[#000000] pl-[1rem] py-[0.69rem]"
                             {/* Upload image */}
                             <div className="relative">
                                 <img
-                                    src={`${previewImage !== null ? previewImage : "/images/upload_image.jpg"}
+                                    src={`${previewImage !== null && previewImage !== undefined ? previewImage : "/images/upload_image.jpg"}
                                     `}
                                     alt="upload_image"
                                     className="relative h-[13.375rem] w-[10.375rem]"
