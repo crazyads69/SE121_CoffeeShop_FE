@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { updateProduct } from "./product-slice";
+import { Product } from "./product-slice";
 
 export interface CheckoutItem {
     productID: string;
@@ -11,6 +11,7 @@ export interface CheckoutItem {
 
 export interface CheckoutList {
     items: CheckoutItem[];
+    productList: Product[];
     totalPrice: number;
     discountPrice: number;
     voucherCode: string | null;
@@ -26,6 +27,7 @@ export interface CheckoutState {
 const initialState: CheckoutState = {
     checkoutList: {
         items: [],
+        productList: [],
         totalPrice: 0,
         discountPrice: 0,
         voucherCode: null,
@@ -102,6 +104,23 @@ const checkoutSlice = createSlice({
         clearCheckoutList: (state) => {
             state.checkoutList = initialState.checkoutList;
         },
+        addToProductList: (state, action: PayloadAction<Product>) => {
+            // Check if the product is already in the list
+            const existingProductIndex = state.checkoutList.productList.findIndex(
+                (product) => product.id === action.payload.id,
+            );
+            // If the product is not in the list, add it
+            if (existingProductIndex === -1) {
+                state.checkoutList.productList.push(action.payload);
+            }
+            // If the product is already in the list, update the product
+            else {
+                state.checkoutList.productList[existingProductIndex] = action.payload;
+            }
+        },
+        clearProductList: (state) => {
+            state.checkoutList.productList = [];
+        },
     },
 });
 
@@ -118,5 +137,7 @@ export const {
     updateCustomerPhone,
     updateTableNumber,
     clearCheckoutList,
+    addToProductList,
+    clearProductList,
 } = checkoutSlice.actions;
 export default checkoutSlice.reducer;

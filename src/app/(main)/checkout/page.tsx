@@ -11,7 +11,11 @@ import { RootState } from "@/redux/store";
 import { Product, setProducts } from "@/redux/slices/product-slice";
 import useGetProductTotalPage from "@/hooks/product/useGetProductTotalPage";
 import useGetProductList from "@/hooks/product/useGetProductList";
-import { clearCheckoutList, updateTotalPrice } from "@/redux/slices/checkout-slice";
+import {
+    addToProductList,
+    clearCheckoutList,
+    updateTotalPrice,
+} from "@/redux/slices/checkout-slice";
 import fuzzyMatch, { formatCurrency } from "@/utils/custom-functions/custom-functions";
 import LoadingPage from "@/components/global/loading/LoadingPage";
 import Pagination from "@/components/global/pagination/pagination";
@@ -71,8 +75,11 @@ export default function Page() {
     };
     // Update product list when search value and product type change
     useEffect(() => {
+        // Add data to product list
+        products.forEach((product) => {
+            dispatch(addToProductList(product));
+        });
         let filteredProductList = filterByProductType(products, selectedProductType);
-
         filteredProductList = filterBySearchValue(filteredProductList, searchValue);
         setFilterProductList(filteredProductList);
     }, [selectedProductType, searchValue, products]);
