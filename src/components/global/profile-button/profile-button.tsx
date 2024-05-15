@@ -13,14 +13,14 @@ interface ProfileButtonProps {
 
 export default function ProfileButton({ setShowAccountModal }: ProfileButtonProps) {
     const user = useSelector((state: RootState) => state.auth.user);
-    const user_data = localStorage.getItem("user");
+    // const user_data = localStorage.getItem("user");
     const dispatch = useDispatch();
     // Check if user_data exists in local storage and dispatch loginSuccess action to update user state again
-    useEffect(() => {
-        if (user_data) {
-            dispatch(loginSuccess(JSON.parse(user_data)));
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (user_data) {
+    //         dispatch(loginSuccess(JSON.parse(user_data)));
+    //     }
+    // }, []);
 
     // Add ref to handle click outside
     const [showDropdown, setShowDropdown] = useState<boolean>(false);

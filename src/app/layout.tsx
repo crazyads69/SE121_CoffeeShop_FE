@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Head } from "next/document";
 import ReduxProvider from "@/redux/provider/provider";
+import GetLocalStorage from "@/redux/provider/get-local-storage";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
