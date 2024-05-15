@@ -125,6 +125,7 @@ export default function UpdateStaff({
             name,
             email,
             password,
+            rePassword,
             staff,
             setShowUpdateStaffModal,
             setShowStaffDetail,

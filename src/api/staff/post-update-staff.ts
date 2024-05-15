@@ -8,6 +8,7 @@ export default async function PostUpdateStaff(
     name: string,
     email: string,
     password: string,
+    rePassword: string,
     staff: Staff,
     setShowUpdateStaffModal: (showUpdateStaffModal: boolean) => void,
     setShowStaffDetail: (showStaffDetail: boolean) => void,
@@ -19,6 +20,7 @@ export default async function PostUpdateStaff(
             name,
             email,
             password,
+            password_confirmation: rePassword,
         });
         if (res.status === 200 || res.status === 201) {
             dispatch(
