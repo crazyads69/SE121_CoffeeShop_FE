@@ -31,7 +31,7 @@ export default function Layout({ children }: LayoutProps) {
             </div>
             {/* Navbar */}
             <NavBar />
-            <AlertMessage className="absolute top-[2%] right-[2%] mr-[1.25rem] mt-[1.25rem] h-[3.75rem] w-[28.5625rem]" />
+            <AlertMessage className="fixed top-[2%] right-[2%] mr-[1.25rem] mt-[1.25rem] h-[3.75rem] w-[28.5625rem]" />
             {showAccountModal && <AccountDetail setShowAccountModal={setShowAccountModal} />}
             {/** Content */}
             {children}
