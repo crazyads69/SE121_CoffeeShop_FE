@@ -18,9 +18,9 @@ export interface BillingItemProps {
 }
 
 export default function BillingItem({ productID, quantity, productPrice }: BillingItemProps) {
-    const products = useSelector((state: RootState) => state.product.products);
+    const productList = useSelector((state: RootState) => state.checkout.checkoutList.productList);
     // Map productID to product name
-    const productName = products.find((product) => product.id === productID)?.name;
+    const productName = productList.find((product) => product.id === productID)?.name;
     const dispatch = useDispatch();
 
     // Check if product item quantity is 0, remove it from checkout list
