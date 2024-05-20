@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { addProduct } from "./product-slice";
 
 export interface Customer {
     id: number;

@@ -35,18 +35,24 @@ export const NavBarItem = [
     },
     {
         id: "4",
+        name: "Thành viên",
+        path: "/admin/loyal",
+        requireAdmin: true,
+    },
+    {
+        id: "5",
         name: "Nhân viên",
         path: "/admin/staff",
         requireAdmin: true,
     },
     {
-        id: "5",
+        id: "6",
         name: "Voucher",
         path: "/admin/voucher",
         requireAdmin: true,
     },
     {
-        id: "6",
+        id: "7",
         name: "Bán hàng",
         path: "/checkout",
         requireAdmin: false,

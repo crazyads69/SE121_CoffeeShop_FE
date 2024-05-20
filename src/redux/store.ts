@@ -9,6 +9,7 @@ import productSlice from "./slices/product-slice";
 import invoiceSlice from "./slices/invoice-slice";
 import staffSlice from "./slices/staff-slice";
 import voucherSlice from "./slices/voucher-slice";
+import loyalSlice from "./slices/loyal-slice";
 
 const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
         auth: authSlice,
         checkout: checkoutSlice,
         customer: customerSlice,
+        loyal: loyalSlice,
         product: productSlice,
         invoice: invoiceSlice,
         staff: staffSlice,

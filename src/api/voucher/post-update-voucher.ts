@@ -30,9 +30,9 @@ export default async function PostUpdateVoucher(
             dispatch(setSuccess("Cập nhật voucher thành công"));
             setShowUpdateVoucherModal(false);
             setShowVoucherDetail(false);
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 2000);
         } else if (res.data.message) {
             dispatch(setError(res.data.message));
         } else {

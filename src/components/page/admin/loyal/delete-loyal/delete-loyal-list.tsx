@@ -1,22 +1,21 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import DeleteVoucher from "@/api/voucher/delete-voucher";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import DeleteLoyals from "@/api/loyal/delete-loyals";
 
-interface DeleteVoucherItemProps {
-    voucherCode: string;
-    setShowDeleteVoucherModal: (showDeleteVoucherModal: boolean) => void;
-    setShowVoucherDetail: (showVoucherDetail: boolean) => void;
+interface DeleteLoyalListProps {
+    setShowDeleteLoyalModal: (showDeleteProductModal: boolean) => void;
+    showDeleteLoyalModal: boolean;
 }
 
-export default function DeleteVoucherItem({
-    voucherCode,
-    setShowDeleteVoucherModal,
-    setShowVoucherDetail,
-}: DeleteVoucherItemProps) {
+export default function DeleteLoyalList({
+    setShowDeleteLoyalModal,
+    showDeleteLoyalModal,
+}: DeleteLoyalListProps) {
     const dispatch = useDispatch();
-    // Handle delete product item
-    const handleDeleteVoucherItem = async () => {
-        await DeleteVoucher(voucherCode, setShowDeleteVoucherModal, setShowVoucherDetail, dispatch);
+    // State for hold selected voucher list in table
+    const selectLoyalList = useSelector((state: RootState) => state.loyal.selectedLoyal);
+    const handleDeleteLoyalList = async () => {
+        await DeleteLoyals(selectLoyalList, setShowDeleteLoyalModal, dispatch);
     };
     return (
         <div
@@ -27,7 +26,7 @@ export default function DeleteVoucherItem({
         >
             <div className="fixed inset-0 backdrop-blur-lg" />
             <div className="fixed inset-0 z-10 w-screen">
-                <div className="flex h-full items-center justify-center">
+                <div className="relative flex h-full items-center justify-center">
                     <div className="relative flex h-[24rem] w-[33.125rem] transform flex-col items-center justify-start overflow-hidden rounded-md bg-white p-[3.12rem] shadow-[0px_5px_12px_0px_rgba(0,0,0,0.10)] transition-all">
                         {/* Modal icon */}
                         <div className="inline-flex items-center justify-center rounded-full bg-[#FEEBEB] px-[1.13rem] py-[1.12rem]">
@@ -54,14 +53,14 @@ export default function DeleteVoucherItem({
                         </div>
                         {/* Modal title */}
                         <h1 className="mt-[1.38rem] text-center font-sans text-[1.5rem] font-bold text-[#111928]">
-                            Xoá voucher
+                            Xoá mức thành viên
                         </h1>
                         {/* Modal description */}
                         <p className="mt-[0.94rem] text-center font-sans text-[#637381]">
-                            Hệ thông sẽ xoá bỏ hoàn toàn voucher có mã là
+                            Hệ thông sẽ xoá bỏ
                             <span className="font-sans font-bold text-[#637381]">
                                 {" "}
-                                {voucherCode}
+                                toàn bộ mức thành viên đã chọn
                             </span>
                             . Bạn có chắc chắn muốn xoá ?
                         </p>
@@ -70,7 +69,7 @@ export default function DeleteVoucherItem({
                                 type="button"
                                 className="h-[3.125rem] w-[11.875rem] rounded-md border border-[#DFE4EA] bg-white px-[1.75rem] py-[0.81rem] font-sans font-medium"
                                 onClick={() => {
-                                    setShowDeleteVoucherModal(false);
+                                    setShowDeleteLoyalModal(false);
                                 }}
                             >
                                 Bỏ qua
@@ -78,7 +77,7 @@ export default function DeleteVoucherItem({
                             <button
                                 type="button"
                                 className="h-[3.125rem] w-[11.875rem] rounded-md bg-[#E10E0E] px-[1.75rem] py-[0.81rem] font-sans font-medium text-white"
-                                onClick={handleDeleteVoucherItem}
+                                onClick={handleDeleteLoyalList}
                             >
                                 Đồng ý
                             </button>

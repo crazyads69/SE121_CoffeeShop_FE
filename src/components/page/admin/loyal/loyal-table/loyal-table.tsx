@@ -1,31 +1,30 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState, useEffect } from "react";
-
 import { useSelector } from "react-redux";
-import { Voucher } from "@/redux/slices/voucher-slice";
 import { RootState } from "@/redux/store";
-import AddVoucherItem from "../add-voucher/add-voucher";
-import DeleteVoucherList from "../delete-voucher/delete-voucher-list";
-import SelectAllVoucher from "../select-voucher/select-all-voucher";
-import SelectVoucher from "../select-voucher/select-voucher";
-import VoucherDetail from "../voucher-detail/voucher-detail";
+import { Loyal } from "@/redux/slices/loyal-slice";
 import { formatCurrency } from "@/utils/custom-functions/custom-functions";
+import SelectVoucher from "../../voucher/select-voucher/select-voucher";
+import SelectAllLoyal from "../select-loyal/select-all-loyal";
+import LoyalDetail from "../loyal-detail/loyal-detail";
+import DeleteLoyalList from "../delete-loyal/delete-loyal-list";
+import AddLoyalItem from "../add-loyal/add-loyal";
+import SelectLoyal from "../select-loyal/select-loyal";
 
-export interface VoucherTableProps {
-    vouchers: Voucher[];
+export interface LoyalTableProps {
+    loyals: Loyal[];
 }
-
-export default function VoucherTable({ vouchers }: VoucherTableProps) {
+export default function LoyalTable({ loyals }: LoyalTableProps) {
     // State for hold selected voucher list in table
-    const selectedVoucherList = useSelector((state: RootState) => state.voucher.selectedVoucher);
+    const selectedLoyalList = useSelector((state: RootState) => state.loyal.selectedLoyal);
     // State for track which product is selected to show detail
-    const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
+    const [selectedLoyal, setSelectedLoyal] = useState<Loyal | null>(null);
     // State for show product detail modal
-    const [showVoucherDetail, setShowVoucherDetail] = useState<boolean>(false);
+    const [showLoyalDetail, setShowLoyalDetail] = useState<boolean>(false);
     // State for show delete selected product modal
-    const [showDeleteVoucherModal, setShowDeleteVoucherModal] = useState<boolean>(false);
+    const [showDeleteLoyalModal, setShowDeleteLoyalModal] = useState<boolean>(false);
     // State for show add product modal
-    const [showAddVoucherModal, setShowAddVoucherModal] = useState<boolean>(false);
+    const [showAddLoyalModal, setShowAddLoyalModal] = useState<boolean>(false);
     // // Disable scroll when modal is open to prevent user from scrolling background
     // useEffect(() => {
     //     if (showProductDetail || showDeleteProductModal || showAddProductModal) {
@@ -36,34 +35,34 @@ export default function VoucherTable({ vouchers }: VoucherTableProps) {
     // }, [showProductDetail, showDeleteProductModal, showAddProductModal]);
     // Check for selected product list change to render product list and delete product list button
     useEffect(() => {
-        if (selectedVoucherList.length === 0) {
-            setShowDeleteVoucherModal(false);
+        if (selectedLoyalList.length === 0) {
+            setShowDeleteLoyalModal(false);
         }
-    }, [selectedVoucherList]);
+    }, [selectedLoyalList]);
     // Render product list when filter product list change
     // Format product price to currency format: 1000000 => 1.000.000
     // const formatCurrency = (price: number) => {
     //     return new Intl.NumberFormat("en-US").format(price);
     // };
-    const handleVoucherClick = (voucher: Voucher) => {
-        setShowVoucherDetail(true);
-        setSelectedVoucher(voucher);
+    const handleLoyalClick = (loyal: Loyal) => {
+        setShowLoyalDetail(true);
+        setSelectedLoyal(loyal);
     };
 
     return (
         <div className="flex w-full flex-col">
             <div className="flex w-full flex-row items-center justify-between">
-                <h1 className="font-sans text-[1.5rem] font-bold">Voucher</h1>
+                <h1 className="font-sans text-[1.5rem] font-bold">Mức thành viên</h1>
                 <div className="flex flex-row items-center">
                     {/* Xoá hàng hoá */}
                     {/** Only render delete product button if selectedProduct is not empty */}
-                    {selectedVoucherList.length > 0 && (
+                    {selectedLoyalList.length > 0 && (
                         <button
                             type="button"
                             className="inline-flex items-center rounded-md bg-[#E10E0E] px-[1.5rem]
                     py-[0.75rem]"
                             onClick={() => {
-                                setShowDeleteVoucherModal(true);
+                                setShowDeleteLoyalModal(true);
                             }}
                         >
                             <svg
@@ -81,7 +80,7 @@ export default function VoucherTable({ vouchers }: VoucherTableProps) {
                                 />
                             </svg>
                             <p className="ml-[0.5rem] font-sans text-[1rem] font-medium text-white">
-                                Xoá voucher
+                                Xoá mức giảm giá
                             </p>
                         </button>
                     )}
@@ -91,7 +90,7 @@ export default function VoucherTable({ vouchers }: VoucherTableProps) {
                         className="ml-[1.25rem] inline-flex items-center rounded-md bg-[#1C3FB7]
                     px-[1.5rem] py-[0.75rem]"
                         onClick={() => {
-                            setShowAddVoucherModal(true);
+                            setShowAddLoyalModal(true);
                         }}
                     >
                         <svg
@@ -116,9 +115,9 @@ export default function VoucherTable({ vouchers }: VoucherTableProps) {
                 </div>
             </div>
             {/* Product table */}
-            {vouchers.length === 0 ? (
+            {loyals.length === 0 ? (
                 <h1 className="text-center">
-                    Không có voucher nào được tìm thấy, vui lòng thử lại với các bộ lọc khác{" "}
+                    Không có mức giảm giá nào được tìm thấy, vui lòng thử lại với các bộ lọc khác{" "}
                 </h1>
             ) : (
                 <div
@@ -132,25 +131,25 @@ shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                                     scope="col"
                                     className="px-6 py-3 font-sans text-[0.9375rem] font-medium text-[#111928]"
                                 >
-                                    <SelectAllVoucher />
+                                    <SelectAllLoyal />
                                 </th>
                                 <th
                                     scope="col"
                                     className="px-6 py-3 font-sans text-[0.9375rem] font-medium text-[#111928]"
                                 >
-                                    MÃ VOUCHER
+                                    MÃ MỨC GIẢM GIÁ
                                 </th>
                                 <th
                                     scope="col"
                                     className="px-6 py-3 font-sans text-[0.9375rem] font-medium text-[#111928]"
                                 >
-                                    TÊN VOUCHER
+                                    MỨC THÀNH VIÊN
                                 </th>
                                 <th
                                     scope="col"
                                     className="px-6 py-3 font-sans text-[0.9375rem] font-medium text-[#111928]"
                                 >
-                                    LOẠI VOUCHER
+                                    LOẠI GIẢM GIÁ
                                 </th>
                                 <th
                                     scope="col"
@@ -158,77 +157,65 @@ shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                                 >
                                     MỨC GIẢM GIÁ
                                 </th>
-                                <th
-                                    scope="col"
-                                    className="px-6 py-3 font-sans text-[0.9375rem] font-medium text-[#111928]"
-                                >
-                                    SỐ LƯỢNG
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {/* Product item */}
-                            {vouchers.map((voucher) => (
+                            {loyals.map((loyal) => (
                                 <tr
-                                    key={voucher.id}
+                                    key={loyal.id}
                                     className="h-[2.3125rem] cursor-pointer border-b border-[#EEE] bg-white hover:bg-gray-200"
                                 >
                                     <td className="select-none px-6 py-4 font-sans text-[0.875rem] font-medium">
-                                        <SelectVoucher voucherCode={String(voucher.id)} />
+                                        <SelectLoyal loyalCode={String(loyal.id)} />
                                     </td>
                                     <td
                                         className="select-none px-6 py-4 font-sans text-[0.875rem] font-medium"
-                                        onClick={() => handleVoucherClick(voucher)}
+                                        onClick={() => handleLoyalClick(loyal)}
                                     >
-                                        {voucher.id}
+                                        {loyal.id}
                                     </td>
                                     <td
                                         className="select-none px-6 py-4 font-sans text-[0.875rem] font-medium"
-                                        onClick={() => handleVoucherClick(voucher)}
+                                        onClick={() => handleLoyalClick(loyal)}
                                     >
-                                        {voucher.voucher_code.toUpperCase()}
+                                        {loyal.name}
                                     </td>
                                     <td
                                         className="select-none px-6 py-4 font-sans text-[0.875rem] font-medium"
-                                        onClick={() => handleVoucherClick(voucher)}
+                                        onClick={() => handleLoyalClick(loyal)}
                                     >
-                                        {voucher.type === "direct" ? "Giảm tiền" : "Giảm phần trăm"}
+                                        {loyal.type === "direct" ? "Giảm tiền" : "Giảm phần trăm"}
                                     </td>
                                     <td
                                         className="select-none px-6 py-4 font-sans text-[0.875rem] font-medium"
-                                        onClick={() => handleVoucherClick(voucher)}
+                                        onClick={() => handleLoyalClick(loyal)}
                                     >
-                                        {voucher.type === "direct"
-                                            ? `${formatCurrency(voucher.amount)}đ`
-                                            : `${voucher.amount}%`}
-                                    </td>
-                                    <td
-                                        className="select-none px-6 py-4 font-sans text-[0.875rem] font-medium"
-                                        onClick={() => handleVoucherClick(voucher)}
-                                    >
-                                        {voucher.quantity}
+                                        {loyal.type === "direct"
+                                            ? `${formatCurrency(loyal.amount)}đ`
+                                            : `${loyal.amount}%`}
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
 
-                    {showVoucherDetail === true && (
-                        <VoucherDetail
-                            setShowVoucherDetail={setShowVoucherDetail}
-                            voucher={selectedVoucher as Voucher}
+                    {showLoyalDetail === true && (
+                        <LoyalDetail
+                            setShowLoyalDetail={setShowLoyalDetail}
+                            loyal={selectedLoyal as Loyal}
                         />
                     )}
 
-                    {showDeleteVoucherModal === true && (
-                        <DeleteVoucherList
-                            setShowDeleteVoucherModal={setShowDeleteVoucherModal}
-                            showDeleteVoucherModal={showDeleteVoucherModal}
+                    {showDeleteLoyalModal === true && (
+                        <DeleteLoyalList
+                            setShowDeleteLoyalModal={setShowDeleteLoyalModal}
+                            showDeleteLoyalModal={showDeleteLoyalModal}
                         />
                     )}
 
-                    {showAddVoucherModal === true && (
-                        <AddVoucherItem setShowAddVoucherModal={setShowAddVoucherModal} />
+                    {showAddLoyalModal === true && (
+                        <AddLoyalItem setShowAddLoyalModal={setShowAddLoyalModal} />
                     )}
                 </div>
             )}
