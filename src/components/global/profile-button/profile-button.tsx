@@ -9,9 +9,13 @@ import { loginSuccess } from "@/redux/slices/auth-slice";
 
 interface ProfileButtonProps {
     setShowAccountModal: (showAccountModal: boolean) => void;
+    setShowBankConfig: (showBankConfig: boolean) => void;
 }
 
-export default function ProfileButton({ setShowAccountModal }: ProfileButtonProps) {
+export default function ProfileButton({
+    setShowAccountModal,
+    setShowBankConfig,
+}: ProfileButtonProps) {
     const user = useSelector((state: RootState) => state.auth.user);
     // const user_data = localStorage.getItem("user");
     const dispatch = useDispatch();
@@ -29,9 +33,9 @@ export default function ProfileButton({ setShowAccountModal }: ProfileButtonProp
     };
 
     return (
-        <div className="relative">
+        <div className="relative z-[300]">
             <div
-                className="relative flex h-[2.6875rem] w-[11.125rem] cursor-pointer flex-row items-center justify-between rounded-md border-[1px] border-black px-[1rem] py-[0.75rem] hover:bg-gray-300"
+                className="relative z-[300] flex h-[2.6875rem] w-[11.125rem] cursor-pointer flex-row items-center justify-between rounded-md border-[1px] border-black px-[1rem] py-[0.75rem] hover:bg-gray-300"
                 onClick={handleClicked}
             >
                 <h1 className="select-none font-sans text-[1rem] font-bold">{user?.name}</h1>
@@ -54,6 +58,7 @@ export default function ProfileButton({ setShowAccountModal }: ProfileButtonProp
                 <ProfileDropdown
                     setShowDropdown={setShowDropdown}
                     setShowAccountModal={setShowAccountModal}
+                    setShowBankConfig={setShowBankConfig}
                 />
             )}
         </div>

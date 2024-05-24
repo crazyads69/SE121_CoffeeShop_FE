@@ -10,6 +10,7 @@ import { loginSuccess, loadingSuccess } from "@/redux/slices/auth-slice";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { USER_ROLE } from "@/utils/constant/constant";
 import LoadingPage from "../loading/LoadingPage";
+import useGetBankConfig from "@/hooks/auth/useGetBankConfig";
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -19,6 +20,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     const isLoading = useSelector((state: RootState) => state.auth.isLoading);
     const prevPathname = useRef<string>(pathname);
     const user = useSelector((state: RootState) => state.auth.user);
+    const { bankConfigValue, isLoadingBankConfig, fetchBankConfig } = useGetBankConfig();
 
     // Get user profile data
     const getProfile = async () => {
@@ -68,6 +70,10 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
 
     // Perform check if the pathname is changed (user navigates to another page)
     useLayoutEffect(() => {
+        // If user is authenticated and is admin, fetch bank config, do not fetch if pathname is /login
+        if (isAuthenticated && user?.role === USER_ROLE.ADMIN && pathname !== "/login") {
+            fetchBankConfig();
+        }
         // Check if pathname is changed (different from previous pathname)
         if (pathname !== prevPathname.current) {
             if (pathname === "/" && isAuthenticated && user?.role === USER_ROLE.ADMIN) {

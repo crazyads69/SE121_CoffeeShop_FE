@@ -213,11 +213,10 @@ shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                             showDeleteLoyalModal={showDeleteLoyalModal}
                         />
                     )}
-
-                    {showAddLoyalModal === true && (
-                        <AddLoyalItem setShowAddLoyalModal={setShowAddLoyalModal} />
-                    )}
                 </div>
+            )}
+            {showAddLoyalModal === true && (
+                <AddLoyalItem setShowAddLoyalModal={setShowAddLoyalModal} />
             )}
         </div>
     );

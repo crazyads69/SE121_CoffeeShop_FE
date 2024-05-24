@@ -207,11 +207,11 @@ shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                             setShowDeleteProductModal={setShowDeleteProductModal}
                         />
                     )}
-                    {/* Add product modal */}
-                    {showAddProductModal === true && (
-                        <AddProduct setShowAddProductModal={setShowAddProductModal} />
-                    )}
                 </div>
+            )}
+            {/* Add product modal */}
+            {showAddProductModal === true && (
+                <AddProduct setShowAddProductModal={setShowAddProductModal} />
             )}
         </div>
     );

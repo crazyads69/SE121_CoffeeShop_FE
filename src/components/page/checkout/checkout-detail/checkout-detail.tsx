@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/jsx-no-useless-fragment */
@@ -17,6 +18,8 @@ import { formatCurrency } from "@/utils/custom-functions/custom-functions";
 
 import PostAddCheckout from "@/api/checkout/post-add-checkout";
 import PostVerifyVoucher from "@/api/checkout/post-verify-voucher";
+import PostGetTotalPrice from "@/api/checkout/post-get-total-price";
+import PostLoyalVerify from "@/api/checkout/post-loyal-verify";
 
 export interface CheckoutDetailProps {
     showDetailCheckoutModal: boolean;
@@ -40,11 +43,13 @@ export default function CheckoutDetail({
     const [phone, setPhone] = useState<string>("");
     const [money, setMoney] = useState<string>("");
     const [tableData, setTableData] = useState<number>(0);
+    const [paymentMethod, setPaymentMethod] = useState<string>("cash"); // Default payment method is cash else qr
     // State for disable continue button when not calculate return money
     const [disableContinue, setDisableContinue] = useState<boolean>(true);
     // State for show pay bill modal
     const [showPayBillModal, setShowPayBillModal] = useState<boolean>(false);
     const [returnMoney, setReturnMoney] = useState<string>("");
+    const [showPaymentDialog, setShowPaymentDialog] = useState<boolean>(false);
     // Update voucher state
     useEffect(() => {
         if (voucher) {
@@ -67,27 +72,42 @@ export default function CheckoutDetail({
         }
     }, []);
     // Handle checkout
-    const handleCheckout = async () => {
+    const handleCheckout = () => {
+        // Get total price from server and update to store
         // Verify voucher code and get discount price
-        if (voucherCode) {
-            await PostVerifyVoucher(
-                voucherCode,
-                tableData,
-                checkouts,
-                setShowPayBillModal,
-                setVoucher,
-                dispatch,
-            );
-        } else {
-            // Clear voucher code
-            dispatch(updateVoucherCode(null));
-            setVoucher("");
-            // Update table data
-            setTableData(tableData);
-            dispatch(updateTableNumber(tableData));
-            // Show pay bill modal
-            setShowPayBillModal(true);
-        }
+        // if (voucherCode) {
+        //     await PostVerifyVoucher(
+        //         voucherCode,
+        //         tableData,
+        //         checkouts,
+        //         setShowPayBillModal,
+        //         setVoucher,
+        //         dispatch,
+        //     );
+        // } else {
+        //     // Clear voucher code
+        //     dispatch(updateVoucherCode(null));
+        //     setVoucher("");
+        //     // Update table data
+        //     setTableData(tableData);
+        //     dispatch(updateTableNumber(tableData));
+        //     // Show pay bill modal
+        //     setShowPayBillModal(true);
+        // }
+        // PostLoyalVerify(phone, dispatch);
+        PostGetTotalPrice(
+            checkouts,
+            voucherCode as string,
+            tableData,
+            phone,
+            setVoucher,
+            setPhone,
+            setMoney,
+            setReturnMoney,
+            setShowPayBillModal,
+            setShowDetailCheckoutModal,
+            dispatch,
+        );
     };
     // Handle product type
 
@@ -403,7 +423,9 @@ rounded-[0.625rem] shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                                             Số bàn:
                                         </p>
                                         <p className=" font-sans text-[1rem] text-[#111928]">
-                                            {checkouts.tableNumber}
+                                            {checkouts.tableNumber === 0
+                                                ? "Không có"
+                                                : checkouts.tableNumber}
                                         </p>
 
                                         <p className="font-sans text-[1rem] font-bold text-[#111928]">
@@ -431,14 +453,51 @@ rounded-[0.625rem] shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                                             Khách cần trả:
                                         </p>
                                         <p className="font-sans text-[1rem] text-[#111928]">
-                                            {checkouts.discountPrice !== 0
-                                                ? formatCurrency(
-                                                      checkouts.totalPrice -
-                                                          checkouts.discountPrice,
-                                                  )
-                                                : formatCurrency(checkouts.totalPrice)}
+                                            {formatCurrency(parseInt(money, 10))}
                                         </p>
+                                        {/** Select payment method cash or qr scan */}
                                         <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                            Hình thức thanh toán:
+                                        </p>
+                                        <div className="flex items-center -start">
+                                            <input
+                                                type="radio"
+                                                id="cash"
+                                                name="payment"
+                                                value="cash"
+                                                className="mr-[0.5rem]"
+                                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                                defaultChecked={paymentMethod === "cash"}
+                                            />
+                                            <label
+                                                htmlFor="cash"
+                                                className="font-sans text-[1rem] mr-[0.5rem]"
+                                            >
+                                                Tiền mặt
+                                            </label>
+                                            <input
+                                                type="radio"
+                                                id="qr"
+                                                name="payment"
+                                                value="qr"
+                                                className="mr-[0.5rem]"
+                                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                                defaultChecked={paymentMethod === "qr"}
+                                            />
+                                            <label htmlFor="qr" className="font-sans text-[1rem]">
+                                                Quét mã
+                                            </label>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="h-[3.125rem] w-[11.875rem] rounded-md bg-[#005B6F] px-[1.75rem] py-[0.81rem] font-sans font-medium text-white"
+                                            onClick={() => {
+                                                setShowPaymentDialog(true);
+                                            }}
+                                        >
+                                            Tiếp tục
+                                        </button>
+                                        {/* <p className="font-sans text-[1rem] font-bold text-[#111928]">
                                             Khách đưa:
                                         </p>
                                         <div>
@@ -486,7 +545,179 @@ rounded-[0.625rem] shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                                             }}
                                         >
                                             Hoàn thành
+                                        </button> */}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showPaymentDialog && (
+                <div
+                    className="relative z-10 flex items-center justify-center overflow-hidden"
+                    aria-labelledby="modal-title"
+                    role="dialog"
+                    aria-modal="true"
+                >
+                    <div className="fixed inset-0 backdrop-blur-lg" />
+                    <div className="fixed inset-0 z-10 w-screen">
+                        <div className="flex h-full w-full items-center justify-center">
+                            <div
+                                className="relative flex h-fit
+w-[59.5rem] transform flex-col items-start justify-start overflow-hidden rounded-md bg-white pb-[0.56rem] pl-[1.62rem] pr-[1rem] pt-[0.56rem] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] transition-all"
+                            >
+                                {/* close button */}
+                                <button
+                                    type="button"
+                                    className="absolute right-5 top-5"
+                                    onClick={() => {
+                                        setShowPaymentDialog(false);
+                                    }}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                    >
+                                        <path
+                                            d="M13.2001 12L22.3501 2.84998C22.6876 2.51248 22.6876 1.98748 22.3501 1.64998C22.0126 1.31248 21.4876 1.31248 21.1501 1.64998L12.0001 10.8L2.8501 1.64998C2.5126 1.31248 1.9876 1.31248 1.6501 1.64998C1.3126 1.98748 1.3126 2.51248 1.6501 2.84998L10.8001 12L1.6501 21.15C1.3126 21.4875 1.3126 22.0125 1.6501 22.35C1.8001 22.5 2.0251 22.6125 2.2501 22.6125C2.4751 22.6125 2.7001 22.5375 2.8501 22.35L12.0001 13.2L21.1501 22.35C21.3001 22.5 21.5251 22.6125 21.7501 22.6125C21.9751 22.6125 22.2001 22.5375 22.3501 22.35C22.6876 22.0125 22.6876 21.4875 22.3501 21.15L13.2001 12Z"
+                                            fill="#111928"
+                                        />
+                                    </svg>
+                                </button>
+                                {/* Modal title */}
+                                {/* Product name and price */}
+                                <p className="font-sans text-[1.5rem] font-bold">
+                                    {" "}
+                                    Phiếu thanh toán
+                                </p>
+                                {/* Billing info */}
+                                <div className="flex-row h-full w-full justify-start">
+                                    {/* Total price */}
+                                    <div className="mt-[0.5rem] flex h-fit w-full flex-row items-center justify-start">
+                                        {/** Show qr image if method is  */}
+                                        <div className=" grid h-fit grid-cols-2 grid-rows-6 gap-[0.5rem] self-end">
+                                            <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                Tổng tiền:
+                                            </p>
+                                            <p className="font-sans text-[1rem] text-[#111928]">
+                                                {formatCurrency(checkouts.totalPrice)}
+                                            </p>
+                                            <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                Số bàn:
+                                            </p>
+                                            <p className=" font-sans text-[1rem] text-[#111928]">
+                                                {checkouts.tableNumber === 0
+                                                    ? "Không có"
+                                                    : checkouts.tableNumber}
+                                            </p>
+
+                                            <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                Voucher:
+                                            </p>
+                                            <p className=" font-sans text-[1rem] text-[#111928]">
+                                                {voucherCode || "Không có"}
+                                            </p>
+
+                                            <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                Giảm giá:
+                                            </p>
+                                            <p className="font-sans text-[1rem] text-[#111928]">
+                                                {formatCurrency(checkouts.discountPrice) || 0}
+                                            </p>
+
+                                            <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                Số điện thoại:
+                                            </p>
+                                            <p className="font-sans text-[1rem] text-[#111928]">
+                                                {checkouts.customerPhone || "Không có"}
+                                            </p>
+
+                                            <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                Khách cần trả:
+                                            </p>
+                                            <p className="font-sans text-[1rem] text-[#111928]">
+                                                {formatCurrency(parseInt(money, 10))}
+                                            </p>
+                                            <button
+                                                type="button"
+                                                className="h-[3.125rem] w-[11.875rem] rounded-md bg-[#005B6F] px-[1.75rem] py-[0.81rem] font-sans font-medium text-white"
+                                                onClick={() => {
+                                                    setShowPaymentDialog(true);
+                                                }}
+                                            >
+                                                In hóa đơn
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className="h-[3.125rem] w-[11.875rem] rounded-md bg-[#12582E] px-[1.75rem] py-[0.81rem] font-sans font-medium text-white"
+                                                onClick={() => {
+                                                    if (disableContinue) {
+                                                        dispatch(
+                                                            setError(
+                                                                "Vui lòng thực hiện tính tiền trước",
+                                                            ),
+                                                        );
+                                                        return;
+                                                    }
+                                                    handleFinishCheckout();
+                                                }}
+                                            >
+                                                Hoàn thành
+                                            </button>
+                                            {/* <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                            Khách đưa:
+                                        </p>
+                                        <div>
+                                            <input
+                                                type="text"
+                                                value={money}
+                                                readOnly={returnMoney !== ""}
+                                                onChange={handleMoney}
+                                                placeholder="Nhập số tiền khách đưa"
+                                                className="rounded-md border-b border-[#DFE4EA] focus:outline-none focus:ring-0"
+                                            />
+                                        </div>
+                                        {returnMoney ? (
+                                            <>
+                                                <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                    Tiền thừa:
+                                                </p>
+                                                <p className="font-sans text-[1rem] text-[#111928]">
+                                                    {returnMoney}
+                                                </p>
+                                            </>
+                                        ) : null}
+                                        <button
+                                            type="button"
+                                            className="h-[3.125rem] w-[11.875rem] rounded-md bg-[#005B6F] px-[1.75rem] py-[0.81rem] font-sans font-medium text-white"
+                                            onClick={() => {
+                                                handleReturnMoney();
+                                            }}
+                                        >
+                                            Thành tiền
                                         </button>
+                                        <button
+                                            type="button"
+                                            className="h-[3.125rem] w-[11.875rem] rounded-md bg-[#12582E] px-[1.75rem] py-[0.81rem] font-sans font-medium text-white"
+                                            onClick={() => {
+                                                if (disableContinue) {
+                                                    dispatch(
+                                                        setError(
+                                                            "Vui lòng thực hiện tính tiền trước",
+                                                        ),
+                                                    );
+                                                    return;
+                                                }
+                                                handleFinishCheckout();
+                                            }}
+                                        >
+                                            Hoàn thành
+                                        </button> */}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -18,11 +18,29 @@ const nextConfig = {
         return config;
     },
     images: {
-        domains: ["localhost"],
+        domains: ["localhost", "api.vietqr.io", "vietqr.net", "img.vietqr.io"],
         remotePatterns: [
             {
                 protocol: "http",
                 hostname: "localhost",
+                port: "",
+                pathname: "**",
+            },
+            {
+                protocol: "https",
+                hostname: "api.vietqr.io",
+                port: "",
+                pathname: "**",
+            },
+            {
+                protocol: "https",
+                hostname: "vietqr.net",
+                port: "",
+                pathname: "**",
+            },
+            {
+                protocol: "https",
+                hostname: "img.vietqr.io",
                 port: "",
                 pathname: "**",
             },

@@ -1,19 +1,25 @@
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { button } from "@material-tailwind/react";
+import { RootState } from "@/redux/store";
 import PostLogout from "@/api/auth/post-logout";
 import axiosClient from "@/utils/axios-client/axios-client";
+import { USER_ROLE } from "@/utils/constant/constant";
 
 export interface ProfileDropdownProps {
     setShowDropdown: (showDropdown: boolean) => void;
     setShowAccountModal: (showAccountModal: boolean) => void;
+    setShowBankConfig: (showBankConfig: boolean) => void;
 }
 
 export default function ProfileDropdown({
     setShowDropdown,
     setShowAccountModal,
+    setShowBankConfig,
 }: ProfileDropdownProps) {
     const clickOutsideRef = useRef<HTMLDivElement>(null);
+    const user = useSelector((state: RootState) => state.auth.user);
     const router = useRouter();
     const dispatch = useDispatch();
     // Handle click outside
@@ -39,7 +45,7 @@ export default function ProfileDropdown({
     return (
         <div
             ref={clickOutsideRef}
-            className="absolute right-0 top-0 z-[200] mt-[3.1275rem] flex h-fit w-[11.125rem] flex-col items-center justify-start rounded-md border border-[#000000] bg-white shadow-[0px_1px_3px_0px_rgba(166,175,195,0.40)]"
+            className="absolute right-0 top-0 z-[300] mt-[3.1275rem] flex h-fit  w-[11.125rem] flex-col items-center justify-start rounded-md border border-[#000000] bg-white shadow-[0px_1px_3px_0px_rgba(166,175,195,0.40)]"
         >
             <button
                 type="button"
@@ -71,6 +77,33 @@ export default function ProfileDropdown({
                 </svg>
                 <p className="ml-[0.63rem] select-none font-sans text-[1rem]">Tài khoản</p>
             </button>
+            {/** Only render when admin is login */}
+            {user?.role === USER_ROLE.ADMIN && (
+                <button
+                    type="button"
+                    className="flex w-full flex-row items-center justify-center px-[1rem] py-[0.44rem] hover:bg-gray-300"
+                    onClick={() => {
+                        if (setShowBankConfig) setShowBankConfig(true);
+                        setShowDropdown(false);
+                    }}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
+                        />
+                    </svg>
+                    <p className="ml-[0.63rem] select-none font-sans text-[1rem]">Ngân hàng</p>
+                </button>
+            )}
             <button
                 type="button"
                 className="mt-[0.31rem] flex w-full flex-row items-center justify-center px-[1rem] py-[0.44rem] hover:bg-gray-300"
