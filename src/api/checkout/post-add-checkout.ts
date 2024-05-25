@@ -18,6 +18,10 @@ export default async function PostAddCheckout(
     setReturnMoney: (returnMoney: string) => void,
     setShowPayBillModal: (showPayBillModal: boolean) => void,
     setShowDetailCheckoutModal: (showDetailCheckoutModal: boolean) => void,
+    setTimer: (timer: number) => void,
+    setTimerDetail: (timerDetail: string) => void,
+    setCheckoutId: (checkoutId: string) => void,
+    setQrCode: (qrCode: string) => void,
     dispatch: Dispatch<AnyAction>,
 ) {
     // Get total price
@@ -64,6 +68,10 @@ export default async function PostAddCheckout(
             setMoney("");
             // Reset return money
             setReturnMoney("");
+            setTimer(0);
+            setTimerDetail("");
+            setCheckoutId("");
+            setQrCode("");
             // Close pay bill modal
             setShowPayBillModal(false);
             // Close checkout detail modal
@@ -77,6 +85,10 @@ export default async function PostAddCheckout(
             dispatch(updateVoucherCode(null));
             dispatch(updateCustomerPhone(null));
             dispatch(updateDiscountPrice(0));
+            setTimer(0);
+            setTimerDetail("");
+            setCheckoutId("");
+            setQrCode("");
             // Reset voucher and phone input
             setVoucher("");
             setPhone("");
@@ -99,6 +111,10 @@ export default async function PostAddCheckout(
         dispatch(updateVoucherCode(null));
         dispatch(updateCustomerPhone(null));
         dispatch(updateDiscountPrice(0));
+        setTimer(0);
+        setTimerDetail("");
+        setCheckoutId("");
+        setQrCode("");
         // Reset voucher and phone input
         setVoucher("");
         setPhone("");

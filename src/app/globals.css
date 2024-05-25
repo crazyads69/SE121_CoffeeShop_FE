@@ -56,3 +56,10 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+@media print {
+    @page {
+        size: A5 portrait;
+        margin: 0;
+    }
+}

@@ -1,14 +1,19 @@
+/* eslint-disable consistent-return */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/jsx-no-useless-fragment */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useReactToPrint } from "react-to-print";
+import Image from "next/image";
 import { RootState } from "@/redux/store";
 
 import { clearMessage, setError, setSuccess } from "@/redux/slices/alert-slice";
 import {
     CheckoutItem,
+    CheckoutList,
     updateCustomerPhone,
     updateTableNumber,
     updateVoucherCode,
@@ -20,6 +25,243 @@ import PostAddCheckout from "@/api/checkout/post-add-checkout";
 import PostVerifyVoucher from "@/api/checkout/post-verify-voucher";
 import PostGetTotalPrice from "@/api/checkout/post-get-total-price";
 import PostLoyalVerify from "@/api/checkout/post-loyal-verify";
+import { convertDateToUSFormat } from "../../../../utils/custom-functions/custom-functions";
+import useGetCheckoutQR from "@/hooks/checkout/useGetCheckoutQR";
+import PostCheckBank from "@/api/checkout/post-check-bank";
+import Loading from "@/components/global/loading/Loading";
+
+export interface PrintBillProps {
+    checkout: CheckoutList;
+    paymentMethod: string;
+    totalCost: string;
+    employeeName: string;
+    billCreationTime: string;
+    cashMoney?: string;
+    returnMoney?: string;
+    discountPrice: number;
+    QRCode?: string;
+}
+
+export function PrintBill({
+    checkout,
+    paymentMethod,
+    totalCost,
+    employeeName,
+    billCreationTime,
+    cashMoney,
+    returnMoney,
+    discountPrice,
+    QRCode,
+}: PrintBillProps) {
+    const { productList } = checkout;
+    const { items } = checkout;
+    return (
+        <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+            <h1
+                style={{ textAlign: "center", borderBottom: "1px solid black", fontWeight: "bold" }}
+            >
+                Hóa Đơn Cà Phê
+            </h1>
+            <p style={{ marginTop: "20px", fontWeight: "bold" }}>Nhân viên: {employeeName}</p>
+            <p style={{ fontWeight: "bold" }}>Thời gian: {billCreationTime}</p>
+            <table style={{ width: "100%", marginTop: "20px", borderCollapse: "collapse" }}>
+                <thead>
+                    <tr>
+                        <th
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Sản phẩm
+                        </th>
+                        <th
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Số lượng
+                        </th>
+                        <th
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Giá
+                        </th>
+                        <th
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Tổng
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {items.map((item, index) => (
+                        <tr key={index}>
+                            <td
+                                style={{
+                                    border: "1px solid black",
+                                    padding: "10px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {productList.find((product) => product.id === item.productID)?.name}
+                            </td>
+                            <td
+                                style={{
+                                    border: "1px solid black",
+                                    padding: "10px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {item.quantity}
+                            </td>
+                            <td
+                                style={{
+                                    border: "1px solid black",
+                                    padding: "10px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {`${formatCurrency(item.unit_price)}đ`}
+                            </td>
+                            <td
+                                style={{
+                                    border: "1px solid black",
+                                    padding: "10px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {`${formatCurrency(item.unit_price * item.quantity)}đ`}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td
+                            colSpan={3}
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Tổng cộng
+                        </td>
+                        <td
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                            }}
+                        >{`${formatCurrency(parseInt(totalCost, 10))}đ`}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            colSpan={3}
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Giảm giá
+                        </td>
+                        <td
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                            }}
+                        >{`${formatCurrency(discountPrice)}đ`}</td>
+                    </tr>
+                    <tr>
+                        <td
+                            colSpan={3}
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Thanh toán
+                        </td>
+                        <td
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                            }}
+                        >
+                            {paymentMethod === "cash" ? "Tiền mặt" : "QR Code"}
+                        </td>
+                    </tr>
+                    {paymentMethod === "cash" && (
+                        <>
+                            <tr>
+                                <td
+                                    colSpan={3}
+                                    style={{
+                                        border: "1px solid black",
+                                        padding: "10px",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    Khách đưa
+                                </td>
+                                <td
+                                    style={{ border: "1px solid black", padding: "10px" }}
+                                >{`${cashMoney}đ`}</td>
+                            </tr>
+                            <tr>
+                                <td
+                                    colSpan={3}
+                                    style={{
+                                        border: "1px solid black",
+                                        padding: "10px",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    Tiền thừa
+                                </td>
+                                <td
+                                    style={{ border: "1px solid black", padding: "10px" }}
+                                >{`${returnMoney}đ`}</td>
+                            </tr>
+                        </>
+                    )}
+                    {/* <tr>
+                        <td colSpan={4} style={{ border: '1px solid black', padding: '10px' }}>
+                            <img src={QRCode} alt="QR Code" />
+                        </td>
+                    </tr> */}
+                    {paymentMethod === "qr" && (
+                        <tr>
+                            <td
+                                colSpan={4}
+                                style={{
+                                    border: "1px solid black",
+                                    padding: "10px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                <img src={QRCode} alt="QR Code" height={240} width={140} />
+                            </td>
+                        </tr>
+                    )}
+                </tfoot>
+            </table>
+        </div>
+    );
+}
 
 export interface CheckoutDetailProps {
     showDetailCheckoutModal: boolean;
@@ -30,18 +272,23 @@ export default function CheckoutDetail({
     showDetailCheckoutModal,
     setShowDetailCheckoutModal,
 }: CheckoutDetailProps) {
+    const componentRef = useRef<HTMLDivElement>(null);
+    const { qrCode, isLoadingQR, fetchCheckoutQR, checkoutId, setCheckoutId, setQrCode } =
+        useGetCheckoutQR();
     const checkouts = useSelector((state: RootState) => state.checkout.checkoutList);
     const products = useSelector((state: RootState) => state.product.products);
     // Map productID to product name
     const productName = (productID: string) => {
         return products.find((product: Product) => product.id === productID)?.name;
     };
+    const user = useSelector((state: RootState) => state.auth.user);
     const voucherCode = useSelector((state: RootState) => state.checkout.checkoutList.voucherCode);
     // State for voucher input
     const dispatch = useDispatch();
     const [voucher, setVoucher] = useState<string>("");
     const [phone, setPhone] = useState<string>("");
     const [money, setMoney] = useState<string>("");
+    const [cashMoney, setCashMoney] = useState<string>(""); // State for cash money input
     const [tableData, setTableData] = useState<number>(0);
     const [paymentMethod, setPaymentMethod] = useState<string>("cash"); // Default payment method is cash else qr
     // State for disable continue button when not calculate return money
@@ -50,12 +297,66 @@ export default function CheckoutDetail({
     const [showPayBillModal, setShowPayBillModal] = useState<boolean>(false);
     const [returnMoney, setReturnMoney] = useState<string>("");
     const [showPaymentDialog, setShowPaymentDialog] = useState<boolean>(false);
+    const [timer, setTimer] = useState<number>(0);
+    const [timerDetail, setTimerDetail] = useState<string>("");
     // Update voucher state
     useEffect(() => {
         if (voucher) {
             dispatch(updateVoucherCode(voucher));
         }
     }, [voucher]);
+    // Handle timer from milliseconds to minutes and seconds (mm:ss)
+    const handleTimer = (timer: number) => {
+        const minutes = Math.floor(timer / 60000);
+        const seconds = Math.floor((timer / 1000) % 60);
+        return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+    };
+    // Interval to reduce timer
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTimer((prev) => prev - 1000); // Reduce 1 second every interval
+            // Update timer detail
+            setTimerDetail(handleTimer(timer));
+            // Check if timer is 0 then check bank final time
+            if (timer === 0 && qrCode !== "") {
+                PostCheckBank(checkoutId, money, dispatch).then((res) => {
+                    if (!res) {
+                        // Clear interval
+                        clearInterval(interval);
+                        // Reset timer
+                        setTimer(0);
+                        setTimerDetail("");
+                        setCheckoutId("");
+                        setQrCode("");
+                        setShowPaymentDialog(false);
+                        // Show error message
+                        dispatch(setError("Hết thời gian thanh toán"));
+                    }
+                });
+            }
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [timer]);
+
+    useEffect(() => {
+        if (qrCode !== "") {
+            const timeInterval = setInterval(() => {
+                // Call API to verify bank every 10 seconds
+                PostCheckBank(checkoutId, money, dispatch).then((res) => {
+                    if (res) {
+                        // Payment success then clear interval
+                        clearInterval(timeInterval);
+                        // Reset timer
+                        setTimer(0);
+                        setTimerDetail("");
+                        // Show success message
+                        dispatch(setSuccess("Thanh toán thành công"));
+                    }
+                });
+            }, 10000);
+            return () => clearInterval(timeInterval);
+        }
+    }, [qrCode]);
     // Update phone state
     useEffect(() => {
         if (phone) {
@@ -71,6 +372,12 @@ export default function CheckoutDetail({
             setPhone(checkouts.customerPhone);
         }
     }, []);
+    // If cash money is empty then reset return money
+    useEffect(() => {
+        if (cashMoney === "") {
+            setReturnMoney("");
+        }
+    }, [cashMoney]);
     // Handle checkout
     const handleCheckout = () => {
         // Get total price from server and update to store
@@ -109,7 +416,9 @@ export default function CheckoutDetail({
             dispatch,
         );
     };
-    // Handle product type
+    const handlePrintBill = useReactToPrint({
+        content: () => componentRef.current,
+    });
 
     // Handle product price
     const handleMoney = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,6 +430,16 @@ export default function CheckoutDetail({
         // Set money state to formatted price
         setMoney(formattedPrice);
     };
+
+    const handleCashMoney = (e: React.ChangeEvent<HTMLInputElement>) => {
+        // Only allow number input
+        const inputPrice = e.target.value.replace(/\D/g, "");
+        // If input is empty, set product price to empty string to prevent error NaN when format
+        // currency else format input price to currency format
+        const formattedPrice = inputPrice === "" ? "" : formatCurrency(parseInt(inputPrice, 10));
+        // Set money state to formatted price
+        setCashMoney(formattedPrice);
+    };
     // Handle return money
     const handleReturnMoney = () => {
         // Get total price
@@ -128,7 +447,7 @@ export default function CheckoutDetail({
         // Get discount price
         const { discountPrice } = checkouts;
         // Get money
-        const moneyInput = money.replace(/\D/g, "");
+        const moneyInput = cashMoney.replace(/\D/g, "");
         // If money is empty, set money to 0
         const moneyInputNumber = moneyInput === "" ? 0 : parseInt(moneyInput, 10);
         // Calculate return money
@@ -153,9 +472,14 @@ export default function CheckoutDetail({
             setReturnMoney,
             setShowPayBillModal,
             setShowDetailCheckoutModal,
+            setTimer,
+            setTimerDetail,
+            setCheckoutId,
+            setQrCode,
             dispatch,
         );
     };
+
     return (
         <>
             <div
@@ -492,7 +816,19 @@ rounded-[0.625rem] shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                                             type="button"
                                             className="h-[3.125rem] w-[11.875rem] rounded-md bg-[#005B6F] px-[1.75rem] py-[0.81rem] font-sans font-medium text-white"
                                             onClick={() => {
-                                                setShowPaymentDialog(true);
+                                                if (paymentMethod === "cash") {
+                                                    setShowPaymentDialog(true);
+                                                } else {
+                                                    // Get QR code from server and show payment dialog
+                                                    fetchCheckoutQR(
+                                                        voucherCode as string,
+                                                        tableData,
+                                                        phone,
+                                                    );
+                                                    setShowPaymentDialog(true);
+                                                    setTimer(600000); // 10 minutes
+                                                    setTimerDetail("10:00");
+                                                }
                                             }}
                                         >
                                             Tiếp tục
@@ -565,13 +901,20 @@ rounded-[0.625rem] shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                         <div className="flex h-full w-full items-center justify-center">
                             <div
                                 className="relative flex h-fit
-w-[59.5rem] transform flex-col items-start justify-start overflow-hidden rounded-md bg-white pb-[0.56rem] pl-[1.62rem] pr-[1rem] pt-[0.56rem] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] transition-all"
+w-[59.5rem] transform flex-col items-start justify-start overflow-hidden rounded-md bg-white  pl-[1.62rem] pr-[1rem] py-[1.56rem] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] transition-all"
                             >
                                 {/* close button */}
                                 <button
                                     type="button"
                                     className="absolute right-5 top-5"
                                     onClick={() => {
+                                        if (paymentMethod === "qr") {
+                                            // Reset state
+                                            setCheckoutId("");
+                                            setQrCode("");
+                                            setTimer(0);
+                                            setTimerDetail("");
+                                        }
                                         setShowPaymentDialog(false);
                                     }}
                                 >
@@ -595,11 +938,12 @@ w-[59.5rem] transform flex-col items-start justify-start overflow-hidden rounded
                                     Phiếu thanh toán
                                 </p>
                                 {/* Billing info */}
-                                <div className="flex-row h-full w-full justify-start">
+                                <div className="flex flex-col h-full w-full justify-center">
                                     {/* Total price */}
-                                    <div className="mt-[0.5rem] flex h-fit w-full flex-row items-center justify-start">
+                                    <div className="mt-[0.5rem] h-fit w-full flex flex-row items-center justify-start">
                                         {/** Show qr image if method is  */}
-                                        <div className=" grid h-fit grid-cols-2 grid-rows-6 gap-[0.5rem] self-end">
+
+                                        <div className=" grid h-fit grid-cols-2 grid-rows-6 gap-[0.5rem] self-start w-1/2">
                                             <p className="font-sans text-[1rem] font-bold text-[#111928]">
                                                 Tổng tiền:
                                             </p>
@@ -614,7 +958,6 @@ w-[59.5rem] transform flex-col items-start justify-start overflow-hidden rounded
                                                     ? "Không có"
                                                     : checkouts.tableNumber}
                                             </p>
-
                                             <p className="font-sans text-[1rem] font-bold text-[#111928]">
                                                 Voucher:
                                             </p>
@@ -642,11 +985,42 @@ w-[59.5rem] transform flex-col items-start justify-start overflow-hidden rounded
                                             <p className="font-sans text-[1rem] text-[#111928]">
                                                 {formatCurrency(parseInt(money, 10))}
                                             </p>
+                                            {paymentMethod === "cash" && (
+                                                <>
+                                                    <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                        Khách đưa:
+                                                    </p>
+                                                    <div>
+                                                        <input
+                                                            type="text"
+                                                            value={cashMoney}
+                                                            onChange={handleCashMoney}
+                                                            onKeyDown={(e) => {
+                                                                if (e.key === "Enter") {
+                                                                    handleReturnMoney();
+                                                                }
+                                                            }}
+                                                            placeholder="Nhập số tiền khách đưa"
+                                                            className="rounded-md border-b border-[#DFE4EA] focus:outline-none focus:ring-0"
+                                                        />
+                                                    </div>
+                                                    {returnMoney && cashMoney !== "" ? (
+                                                        <>
+                                                            <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                                Tiền thừa:
+                                                            </p>
+                                                            <p className="font-sans text-[1rem] text-[#111928]">
+                                                                {returnMoney}
+                                                            </p>
+                                                        </>
+                                                    ) : null}
+                                                </>
+                                            )}
                                             <button
                                                 type="button"
                                                 className="h-[3.125rem] w-[11.875rem] rounded-md bg-[#005B6F] px-[1.75rem] py-[0.81rem] font-sans font-medium text-white"
                                                 onClick={() => {
-                                                    setShowPaymentDialog(true);
+                                                    handlePrintBill();
                                                 }}
                                             >
                                                 In hóa đơn
@@ -655,10 +1029,21 @@ w-[59.5rem] transform flex-col items-start justify-start overflow-hidden rounded
                                                 type="button"
                                                 className="h-[3.125rem] w-[11.875rem] rounded-md bg-[#12582E] px-[1.75rem] py-[0.81rem] font-sans font-medium text-white"
                                                 onClick={() => {
-                                                    if (disableContinue) {
+                                                    if (
+                                                        disableContinue &&
+                                                        paymentMethod === "cash"
+                                                    ) {
                                                         dispatch(
                                                             setError(
                                                                 "Vui lòng thực hiện tính tiền trước",
+                                                            ),
+                                                        );
+                                                        return;
+                                                    }
+                                                    if (paymentMethod === "qr" && timer > 0) {
+                                                        dispatch(
+                                                            setError(
+                                                                "Vui lòng chuyển tiền trước khi hoàn thành",
                                                             ),
                                                         );
                                                         return;
@@ -718,6 +1103,38 @@ w-[59.5rem] transform flex-col items-start justify-start overflow-hidden rounded
                                             Hoàn thành
                                         </button> */}
                                         </div>
+                                        {paymentMethod === "qr" && (
+                                            <div className="flex flex-col items-center justify-center">
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                        Quét mã QR để thanh toán
+                                                    </p>
+                                                    <div className="flex items-center justify-center">
+                                                        {isLoadingQR === true ? (
+                                                            <Loading />
+                                                        ) : (
+                                                            <Image
+                                                                src={qrCode}
+                                                                alt="QR Code"
+                                                                height={440}
+                                                                width={340}
+                                                                loading="eager"
+                                                            />
+                                                        )}
+                                                    </div>
+                                                    {timer > 0 && (
+                                                        <>
+                                                            <p className="font-sans text-[1rem] font-bold text-[#111928]">
+                                                                Thời gian còn lại:
+                                                            </p>
+                                                            <p className="font-sans text-[1rem] text-[#111928]">
+                                                                {timerDetail}
+                                                            </p>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -725,6 +1142,22 @@ w-[59.5rem] transform flex-col items-start justify-start overflow-hidden rounded
                     </div>
                 </div>
             )}
+
+            <div style={{ display: "none" }}>
+                <div ref={componentRef}>
+                    <PrintBill
+                        checkout={checkouts}
+                        paymentMethod={paymentMethod}
+                        totalCost={money}
+                        employeeName={user?.name as string}
+                        discountPrice={checkouts.discountPrice}
+                        billCreationTime={convertDateToUSFormat(new Date().toLocaleString())}
+                        cashMoney={cashMoney}
+                        returnMoney={returnMoney}
+                        QRCode={qrCode}
+                    />
+                </div>
+            </div>
         </>
     );
 }
