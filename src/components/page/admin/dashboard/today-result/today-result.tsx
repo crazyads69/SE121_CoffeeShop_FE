@@ -1,22 +1,10 @@
+import { TodayResultData } from "@/hooks/dashboard/useGetTodayResult";
+
 interface TodayResultProps {
-    billCompleted: number;
-    billCompletedAmount: number;
-    yesterdayBillCompletedAmount: number;
-    billServing: number;
-    billServingAmount: number;
-    customer: number;
-    yesterdayCustomer: number;
+    todayResult: TodayResultData;
 }
 
-export default function TodayResult({
-    billCompleted,
-    billCompletedAmount,
-    yesterdayBillCompletedAmount,
-    billServing,
-    billServingAmount,
-    customer,
-    yesterdayCustomer,
-}: TodayResultProps) {
+export default function TodayResult({ todayResult }: TodayResultProps) {
     // Format number to currency format (ex: 100000 -> 100,000) , en-US locale
     function formatNumberToCurrency(number: number) {
         return new Intl.NumberFormat("en-US").format(number);
@@ -61,13 +49,13 @@ export default function TodayResult({
                     </svg>
                     <div className="flex h-full flex-col items-start justify-start">
                         <p className="select-none font-sans text-[1rem] font-bold">
-                            {billCompleted} đơn đã xong
+                            {todayResult.total_invoice_yesterday} đơn đã xong
                         </p>
                         <p className="select-none font-sans text-[2.25rem] font-bold text-[#005B6F]">
-                            {formatNumberToCurrency(billCompletedAmount)} đ
+                            {formatNumberToCurrency(todayResult.total_income_today)} đ
                         </p>
                         <p className="select-none font-sans text-[1rem] font-normal">
-                            Hôm qua {formatNumberToCurrency(yesterdayBillCompletedAmount)} đ
+                            Hôm qua {formatNumberToCurrency(todayResult.total_income_yesterday)} đ
                         </p>
                     </div>
                 </div>
@@ -92,10 +80,10 @@ export default function TodayResult({
                     </svg>
                     <div className="flex h-full flex-col items-start justify-start">
                         <p className="select-none font-sans text-[1rem] font-bold">
-                            {billServing} đơn đang phục vụ
+                            {todayResult.total_invoice_today} đơn đang phục vụ
                         </p>
                         <p className="select-none font-sans text-[2.25rem] font-bold text-[#005B6F]">
-                            {formatNumberToCurrency(billServingAmount)} đ
+                            {formatNumberToCurrency(todayResult.total_income_pending)} đ
                         </p>
                     </div>
                 </div>
@@ -127,10 +115,10 @@ export default function TodayResult({
                     <div className="flex h-full flex-col items-center justify-start">
                         <p className="select-none font-sans text-[1rem] font-bold">Khách hàng</p>
                         <p className="select-none font-sans text-[2.25rem] font-bold text-[#500606]">
-                            {customer}
+                            {todayResult.total_customer_today}
                         </p>
                         <p className="select-none font-sans text-[1rem] font-normal">
-                            Hôm qua {yesterdayCustomer}
+                            Hôm qua {todayResult.total_customer_yesterday}
                         </p>
                     </div>
                 </div>

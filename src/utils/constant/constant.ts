@@ -967,3 +967,57 @@ export const bankList = [
         swift_code: "GTBAVNVX",
     },
 ];
+
+export const ranges = [
+    {
+        id: "7days",
+        label: "1 tuần qua",
+        value: "7days",
+        startDate: (() => {
+            const date = new Date();
+            date.setDate(date.getDate() - 7);
+            return date;
+        })(),
+        endDate: new Date(),
+    },
+    {
+        id: "30days",
+        label: "1 tháng qua",
+        value: "30days",
+        startDate: (() => {
+            const date = new Date();
+            date.setDate(date.getDate() - 30);
+            return date;
+        })(),
+        endDate: new Date(),
+    },
+    {
+        id: "6months",
+        label: "6 tháng qua",
+        value: "6months",
+        startDate: (() => {
+            const date = new Date();
+            date.setMonth(date.getMonth() - 6);
+            return date;
+        })(),
+        endDate: new Date(),
+    },
+    {
+        id: "1year",
+        label: "1 năm qua",
+        value: "1year",
+        startDate: (() => {
+            const date = new Date();
+            date.setFullYear(date.getFullYear() - 1);
+            return date;
+        })(),
+        endDate: new Date(),
+    },
+    {
+        id: "other",
+        label: "Khác",
+        value: "other",
+        startDate: null,
+        endDate: null,
+    },
+];
