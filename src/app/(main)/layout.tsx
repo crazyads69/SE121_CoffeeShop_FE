@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import Image from "next/image";
 import { RootState } from "@/redux/store";
 import NavBar from "@/components/global/navbar/navbar";
 import AccountDetail from "@/components/global/account-detail/account-detail";
@@ -25,9 +26,16 @@ export default function Layout({ children }: LayoutProps) {
             {/* Header */}
             <div className="sticky z-[300] flex h-fit w-full flex-row items-center justify-between py-[1rem] px-[4.81rem]">
                 <Link href={user?.role === USER_ROLE.ADMIN ? "/admin" : "/checkout"}>
-                    <h1 className="cursor-pointer select-none font-sans text-[1rem] font-bold">
+                    {/* <h1 className="cursor-pointer select-none font-sans text-[1rem] font-bold">
                         THE COFFEESHOP
-                    </h1>
+                    </h1> */}
+                    <Image
+                        src="/images/logo.svg"
+                        alt="logo"
+                        width={150}
+                        height={150}
+                        className="cursor-pointer"
+                    />
                 </Link>
                 <ProfileButton
                     setShowAccountModal={setShowAccountModal}

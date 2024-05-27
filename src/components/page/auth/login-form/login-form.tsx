@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { setError } from "@/redux/slices/alert-slice";
 import { RootState } from "@/redux/store";
 import PostLogin from "@/api/auth/post-login";
@@ -35,9 +36,16 @@ export default function LoginForm() {
     };
     return (
         <div className="flex h-[24.125rem] w-[26.5625rem] flex-col items-center justify-start rounded-[0.625rem] bg-white px-[2.37rem] py-[2rem]">
-            <h1 className="select-none text-center font-sans text-[1.5rem] font-bold">
+            {/* <h1 className="select-none text-center font-sans text-[1.5rem] font-bold">
                 THE COFFEESHOP
-            </h1>
+            </h1> */}
+            <Image
+                src="/images/logo.svg"
+                alt="logo"
+                width={250}
+                height={250}
+                className="flex items-center justify-center"
+            />
             <form onSubmit={handleSubmit}>
                 <div className="mt-[0.81rem] flex flex-col items-start justify-start">
                     <label
