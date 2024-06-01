@@ -68,7 +68,7 @@ export default function AlertMessage({ className }: AlertMessageProps) {
             onClose={() => {
                 dispatch(clearMessage());
             }}
-            className={`${className} z-50`}
+            className={`${className} z-[400]`}
         >
             {message}
         </Alert>
