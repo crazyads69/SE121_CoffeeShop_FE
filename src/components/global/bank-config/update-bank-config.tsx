@@ -22,10 +22,13 @@ export default function UpdateBankConfig({ setShowBankUpdateModal }: UpdateBankC
     const [selectedBank, setSelectedBank] = useState<string>("");
     const [bankAccountNumber, setBankAccountNumber] = useState<string>("");
     const [bankAccountName, setBankAccountName] = useState<string>("");
+    const [apiKey, setApiKey] = useState<string>("");
     const [bankAccountNumberError, setBankAccountNumberError] = useState<boolean>(false);
     const [bankAccountNameError, setBankAccountNameError] = useState<boolean>(false);
+    const [apiKeyError, setApiKeyError] = useState<boolean>(false);
     const inputBankAccountNumberRef = useRef<HTMLInputElement>(null);
     const inputBankAccountNameRef = useRef<HTMLInputElement>(null);
+    const inputApiKeyRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         // Update bank config data
@@ -33,6 +36,7 @@ export default function UpdateBankConfig({ setShowBankUpdateModal }: UpdateBankC
             setSelectedBank(bankConfig.bank_id);
             setBankAccountNumber(bankConfig.bank_number);
             setBankAccountName(bankConfig.bank_account_name);
+            setApiKey(bankConfig.api_key);
         }
     }, []);
 
@@ -48,7 +52,12 @@ export default function UpdateBankConfig({ setShowBankUpdateModal }: UpdateBankC
                 setBankAccountNumberError(false);
             });
         }
-    }, [bankAccountNameError, bankAccountNumberError]);
+        if (apiKeyError && inputApiKeyRef.current) {
+            inputApiKeyRef.current.addEventListener("input", () => {
+                setApiKeyError(false);
+            });
+        }
+    }, [bankAccountNameError, bankAccountNumberError, apiKeyError]);
     // Remove error class when user type in input field timeout
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -58,11 +67,14 @@ export default function UpdateBankConfig({ setShowBankUpdateModal }: UpdateBankC
             if (bankAccountNumberError) {
                 setBankAccountNumberError(false);
             }
+            if (apiKeyError) {
+                setApiKeyError(false);
+            }
         }, 3000);
         return () => {
             clearTimeout(timeout);
         };
-    }, [bankAccountNameError, bankAccountNumberError]);
+    }, [bankAccountNameError, bankAccountNumberError, apiKeyError]);
     // Handle bank account number change
     const handleBankAccountNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         // Only allow number input
@@ -71,7 +83,12 @@ export default function UpdateBankConfig({ setShowBankUpdateModal }: UpdateBankC
     };
 
     const handleSaveBankConfig = async () => {
-        if (bankAccountName === "" || bankAccountNumber === "") {
+        if (
+            bankAccountName === "" ||
+            bankAccountNumber === "" ||
+            apiKey === "" ||
+            selectedBank === ""
+        ) {
             // Show popup error
             dispatch(setError("Vui lòng nhập đầy đủ thông tin ngân hàng"));
             // Check if voucher code is empty
@@ -84,6 +101,11 @@ export default function UpdateBankConfig({ setShowBankUpdateModal }: UpdateBankC
                 setBankAccountNumberError(true);
                 return;
             }
+            // Check if api key is empty
+            if (apiKey === "") {
+                setApiKeyError(true);
+                return;
+            }
             // Check if bank account number is not a number
             if (Number.isNaN(parseInt(bankAccountNumber, 10))) {
                 setBankAccountNumberError(true);
@@ -94,6 +116,7 @@ export default function UpdateBankConfig({ setShowBankUpdateModal }: UpdateBankC
             selectedBank,
             bankAccountNumber,
             bankAccountName,
+            apiKey,
             setShowBankUpdateModal,
             dispatch,
         );
@@ -191,6 +214,18 @@ items-center justify-start border-b border-[#000000] pb-[0.56rem] pl-[1rem] pt-[
                                             bankAccountNumberError
                                                 ? "border-red-500"
                                                 : "border-[#DFE4EA]"
+                                        } bg-white py-[0.75rem] pl-[1.25rem] pr-[1rem] placeholder:text-[rgba(0,0,0,0.55)]`}
+                                    />
+                                    <h1 className="font-sans text-[1rem] font-medium">API Key:</h1>
+                                    <input
+                                        type="text"
+                                        ref={inputApiKeyRef}
+                                        value={apiKey}
+                                        onChange={(e) => setApiKey(e.target.value)}
+                                        maxLength={255}
+                                        placeholder="Nhập api key ngân hàng"
+                                        className={`col-start-2 rounded-md border ${
+                                            apiKeyError ? "border-red-500" : "border-[#DFE4EA]"
                                         } bg-white py-[0.75rem] pl-[1.25rem] pr-[1rem] placeholder:text-[rgba(0,0,0,0.55)]`}
                                     />
                                 </div>

@@ -53,7 +53,7 @@ export default function DeleteStaffList({
                         </div>
                         {/* Modal title */}
                         <h1 className="mt-[1.38rem] text-center font-sans text-[1.5rem] font-bold text-[#111928]">
-                            Xoá hàng hoá
+                            Xoá nhân viên
                         </h1>
                         {/* Modal description */}
                         <p className="mt-[0.94rem] text-center font-sans text-[#637381]">

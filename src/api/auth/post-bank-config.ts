@@ -8,11 +8,11 @@ export default async function PostBankConfig(
     bankId: string,
     bankNumber: string,
     bankAccountName: string,
+    apiKey: string,
     setShowBankUpdateModal: (showBankUpdateModal: boolean) => void,
     dispatch: Dispatch<AnyAction>,
 ) {
     try {
-        const apiKey = process.env.NEXT_PUBLIC_BANK_API_KEY;
         const res = await axiosClient.post("/bank-config", {
             bank_id: bankId,
             bank_number: bankNumber,

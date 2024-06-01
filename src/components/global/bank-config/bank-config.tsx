@@ -12,7 +12,6 @@ export interface BankConfigProps {
 }
 
 export default function BankConfig({ setShowBankConfig }: BankConfigProps) {
-    const [selectedBank, setSelectedBank] = useState<string>("");
     const bankConfig = useSelector((state: RootState) => state.auth.bankConfig);
     const [showBankUpdateModal, setShowBankUpdateModal] = useState<boolean>(false);
     const [showBankQRModal, setShowBankQRModal] = useState<boolean>(false);
