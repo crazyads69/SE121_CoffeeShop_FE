@@ -11,8 +11,8 @@ export default function useGetInvoicesList() {
 
     // Fetch invoices list
     const fetchInvoicesList = async (page: number) => {
-        setIsLoadingInvoices(true);
         try {
+            setIsLoadingInvoices(true);
             const res = await axiosClient.get(`/invoices?page=${page}`);
             if (res.status === 200) {
                 dispatch(setInvoices(res.data.data));

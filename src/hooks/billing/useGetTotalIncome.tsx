@@ -49,6 +49,5 @@ export default function useGetTotalIncome() {
         };
         fetchData();
     }, [totalPage, endPoint]);
-
     return totalIncome;
 }

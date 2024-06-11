@@ -72,9 +72,10 @@ w-[54.0625rem] transform flex-col items-start justify-start overflow-hidden roun
                             <p className="font-sans text-[1rem] font-medium">Khách hàng:</p>
                             <div className="col-start-2 flex flex-row items-center justify-between border-b border-[#DFE4EA]">
                                 <p className="font-sans text-[1rem] font-medium text-[#1C3FB7]">
-                                    {invoice.customer === null
+                                    {invoice.customer?.name === null ||
+                                    invoice.customer?.name === undefined
                                         ? "Khách vãng lai"
-                                        : invoice.customer.name}
+                                        : invoice.customer?.name}
                                 </p>
                             </div>
                             <p className="font-sans text-[1rem] font-medium">Bàn:</p>
@@ -100,12 +101,12 @@ rounded-[0.625rem] shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                             <table className="w-full text-left rtl:text-right">
                                 <thead className="h-[3.75rem] border-b border-[#EEE] bg-[#F9FAFB] font-sans text-[0.9375rem] font-normal text-[#111928]">
                                     <tr>
-                                        <th
+                                        {/* <th
                                             scope="col"
                                             className="px-6 py-3 font-sans text-[0.9375rem] font-medium text-[#111928]"
                                         >
                                             MÃ HÀNG HOÁ
-                                        </th>
+                                        </th> */}
                                         <th
                                             scope="col"
                                             className="px-6 py-3 font-sans text-[0.9375rem] font-medium text-[#111928]"
@@ -139,9 +140,9 @@ rounded-[0.625rem] shadow-[0px_3px_8px_0px_rgba(0,0,0,0.08)]"
                                             key={item.id}
                                             className="h-[2.3125rem] cursor-pointer border-b border-[#EEE] bg-white hover:bg-gray-200"
                                         >
-                                            <td className="select-none px-6 py-4 font-sans text-[0.875rem] font-medium">
+                                            {/* <td className="select-none px-6 py-4 font-sans text-[0.875rem] font-medium">
                                                 {item.id}
-                                            </td>
+                                            </td> */}
                                             <td className="select-none px-6 py-4 font-sans text-[0.875rem] font-medium">
                                                 {item.product_name}
                                             </td>

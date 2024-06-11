@@ -1,22 +1,27 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import useGetTotalIncome from "@/hooks/billing/useGetTotalIncome";
-import TotalIncome from "@/components/page/billing/total-income/total-income";
 import { Invoice } from "@/redux/slices/invoice-slice";
 import { convertIsoStringToDate, formatCurrency } from "@/utils/custom-functions/custom-functions";
 import StatusDropdown from "@/components/page/billing/status-dropdown/status-dropdown";
 import BillingDetail from "@/components/page/billing/billing-detail/billing-detail";
+import TotalIncome from "@/components/page/billing/total-income/total-income";
+import { RootState } from "@/redux/store";
+import { USER_ROLE } from "@/utils/constant/constant";
 
 export interface BillingTableProps {
     invoices: Invoice[];
 }
 
 export default function BillingTable({ invoices }: BillingTableProps) {
-    const totalIncome = useGetTotalIncome();
     // State for show detail of invoice
     const [showInvoiceDetail, setShowInvoiceDetail] = useState<boolean>(true);
     const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+    const user = useSelector((state: RootState) => state.auth.user);
     const handleBillClick = (invoice: Invoice) => {
+        // Only allow admin to view invoice detail
+        if (user?.role !== USER_ROLE.ADMIN) return;
         setSelectedInvoice(invoice);
         setShowInvoiceDetail(true);
     };
@@ -25,7 +30,7 @@ export default function BillingTable({ invoices }: BillingTableProps) {
             {/** Header */}
             <div className="flex h-fit w-full flex-row items-center justify-between">
                 <h1 className="font-sans text-[1.5rem] font-bold">Hoá đơn</h1>
-                <TotalIncome totalIncome={totalIncome} />
+                {user?.role === USER_ROLE.ADMIN && <TotalIncome />}
             </div>
             {/** Table */}
             {invoices.length === 0 ? (

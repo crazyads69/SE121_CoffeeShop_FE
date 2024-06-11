@@ -21,7 +21,7 @@ import fuzzyMatch, { filterByTimeRange } from "@/utils/custom-functions/custom-f
 export default function Page() {
     const { isLoadingInvoices, invoiceList, fetchInvoicesList, fetchPendingInvoicesList } =
         useGetInvoicesList();
-    const { totalPage, fetchTotalPage } = useGetBillingTotalPage();
+    const { totalPage, fetchTotalPage, fetchPendingTotalPage } = useGetBillingTotalPage();
     const [searchBillID, setSearchBillID] = useState<string>("");
     const [searchCustomerID, setSearchCustomerID] = useState<string>("");
     const [selectedDateRange, setSelectedDateRange] = useState<string>("allTime");
@@ -32,11 +32,13 @@ export default function Page() {
     const invoices = useSelector((state: RootState) => state.invoice.invoices);
     useEffect(() => {
         if (user?.role === USER_ROLE.ADMIN) {
+            fetchTotalPage();
             fetchInvoicesList(activePage);
         } else {
+            fetchPendingTotalPage();
             fetchPendingInvoicesList(activePage);
         }
-    }, [user, activePage]);
+    }, [activePage, user]);
     // Filter invoices by bill id
     const filterByBillID = (invoices: Invoice[], searchBillID: string) => {
         return invoices.filter((invoice) => {

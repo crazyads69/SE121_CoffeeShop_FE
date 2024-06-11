@@ -9,18 +9,10 @@ import { USER_ROLE } from "@/utils/constant/constant";
 export default function useGetBillingTotalPage() {
     const [totalPage, setTotalPage] = useState<number>(1);
     const dispatch = useDispatch();
-    const user = useSelector((state: RootState) => state.auth.user);
-    let endPoint = "/invoices";
-
-    if (user?.role === USER_ROLE.ADMIN) {
-        endPoint = "/invoices";
-    } else {
-        endPoint = `/invoices-pending`;
-    }
 
     const fetchTotalPage = async () => {
         try {
-            const res = await axiosClient.get(endPoint);
+            const res = await axiosClient.get("/invoices");
             if (res.status === 200) {
                 setTotalPage(res.data.last_page);
             } else if (res.data.message) {
@@ -34,5 +26,23 @@ export default function useGetBillingTotalPage() {
             setTotalPage(1);
         }
     };
-    return { totalPage, fetchTotalPage };
+
+    const fetchPendingTotalPage = async () => {
+        try {
+            const res = await axiosClient.get("/invoices-pending");
+            if (res.status === 200) {
+                setTotalPage(res.data.last_page);
+            } else if (res.data.message) {
+                dispatch(setError(res.data.message));
+                setTotalPage(1);
+            } else {
+                throw new Error("Đã có lỗi khi lấy dữ liệu hóa đơn");
+            }
+        } catch (error) {
+            dispatch(setError("Đã có lỗi khi lấy dữ liệu hóa đơn"));
+            setTotalPage(1);
+        }
+    };
+
+    return { totalPage, fetchTotalPage, fetchPendingTotalPage };
 }
