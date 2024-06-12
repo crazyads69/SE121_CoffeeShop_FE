@@ -41,7 +41,10 @@ export default function NavBar() {
         // Redirect to the clicked path, use window.location.href to force reload the page to reset the state
         // NextJS does not reload target page when using router.push because it is client side navigation
         // The page is already loaded so it does not reload and cache the state
-        window.location.href = path;
+        //  window.location.href = path;
+        router.push(path, {
+            scroll: false,
+        });
     };
     return (
         <div className=" flex h-[3.125rem] w-screen flex-row items-center justify-center bg-[#3758F9] px-[16rem] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
