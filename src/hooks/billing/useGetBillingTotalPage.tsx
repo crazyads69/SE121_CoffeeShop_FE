@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import path from "path";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
 import { setError } from "@/redux/slices/alert-slice";
 import axiosClient from "@/utils/axios-client/axios-client";
-import { RootState } from "@/redux/store";
-import { USER_ROLE } from "@/utils/constant/constant";
 
 export default function useGetBillingTotalPage() {
     const [totalPage, setTotalPage] = useState<number>(1);

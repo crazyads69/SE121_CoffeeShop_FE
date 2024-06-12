@@ -4,7 +4,7 @@ import { Product } from "@/redux/slices/product-slice";
 import DeleteProductItem from "../delete-product/delete-product-item";
 import ProductImage from "../product-image/product-image";
 import UpdateProduct from "../update-product/update-product";
-import { formatImageURL, formatCurrency } from "@/utils/custom-functions/custom-functions";
+import { formatCurrency, formatImageURL } from "@/utils/custom-functions/custom-functions";
 
 interface ProductDetailProps {
     product: Product | null;

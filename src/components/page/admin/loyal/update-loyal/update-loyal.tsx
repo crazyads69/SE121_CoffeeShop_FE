@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import PostAddLoyal from "@/api/loyal/post-add-loyal";
+
 import { setError } from "@/redux/slices/alert-slice";
 import { Loyal } from "@/redux/slices/loyal-slice";
 import { formatCurrency } from "@/utils/custom-functions/custom-functions";

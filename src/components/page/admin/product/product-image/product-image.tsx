@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Loading from "@/components/global/loading/Loading";
 
 interface ProductImageProps {

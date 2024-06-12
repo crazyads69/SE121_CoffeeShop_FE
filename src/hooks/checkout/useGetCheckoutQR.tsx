@@ -1,7 +1,7 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { CheckoutItem, CheckoutList } from "@/redux/slices/checkout-slice";
+import { CheckoutItem } from "@/redux/slices/checkout-slice";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { setError } from "@/redux/slices/alert-slice";
 

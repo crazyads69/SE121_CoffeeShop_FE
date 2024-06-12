@@ -1,6 +1,6 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { removeAllSelectedProducts } from "@/redux/slices/product-slice";
+
 import DeleteProducts from "@/api/product/delete-products";
 
 interface DeleteProductListProps {

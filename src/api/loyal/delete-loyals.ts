@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { AnyAction } from "redux";
 import axiosClient from "@/utils/axios-client/axios-client";
-import { setSuccess, setError } from "@/redux/slices/alert-slice";
+import { setError, setSuccess } from "@/redux/slices/alert-slice";
 import { removeAllSelectedLoyals, removeLoyalList } from "@/redux/slices/loyal-slice";
 
 export default async function DeleteLoyals(

@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
-import { setActive } from "@material-tailwind/react/components/Tabs/TabsContext";
+
 import { RootState } from "@/redux/store";
 import { NavBarItem, USER_ROLE } from "@/utils/constant/constant";
 

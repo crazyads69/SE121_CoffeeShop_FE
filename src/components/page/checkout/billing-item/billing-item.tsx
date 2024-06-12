@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
     addProductToCheckoutList,
-    removeProductFromCheckoutList,
     decreaseProductQuantityInCheckoutList,
+    removeProductFromCheckoutList,
     updateProductQuantityInCheckoutList,
 } from "@/redux/slices/checkout-slice";
 import { formatCurrency } from "@/utils/custom-functions/custom-functions";

@@ -1,5 +1,5 @@
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
-import { log } from "console";
+
 import { setError, setSuccess } from "@/redux/slices/alert-slice";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { updateBankConfig } from "@/redux/slices/auth-slice";

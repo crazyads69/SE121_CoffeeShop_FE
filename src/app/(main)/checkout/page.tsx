@@ -5,10 +5,10 @@
 
 "use client";
 
-import { useEffect, useState, use } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { Product, setProducts } from "@/redux/slices/product-slice";
+import { Product } from "@/redux/slices/product-slice";
 import useGetProductTotalPage from "@/hooks/product/useGetProductTotalPage";
 import useGetProductList from "@/hooks/product/useGetProductList";
 import {

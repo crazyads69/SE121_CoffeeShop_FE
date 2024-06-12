@@ -3,7 +3,7 @@
 
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import LoadingPage from "@/components/global/loading/LoadingPage";
 import Pagination from "@/components/global/pagination/pagination";

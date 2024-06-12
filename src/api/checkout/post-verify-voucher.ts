@@ -2,10 +2,10 @@ import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { setError, setSuccess } from "@/redux/slices/alert-slice";
 import {
-    updateDiscountPrice,
-    updateVoucherCode,
-    updateTableNumber,
     CheckoutList,
+    updateDiscountPrice,
+    updateTableNumber,
+    updateVoucherCode,
 } from "@/redux/slices/checkout-slice";
 
 export default async function PostVerifyVoucher(

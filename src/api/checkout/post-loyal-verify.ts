@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 import { AnyAction } from "redux";
-import { setSuccess, setError } from "@/redux/slices/alert-slice";
+import { setError, setSuccess } from "@/redux/slices/alert-slice";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { updateCustomerPhone } from "@/redux/slices/checkout-slice";
 

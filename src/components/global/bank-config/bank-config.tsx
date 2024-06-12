@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { bankList, USER_ROLE } from "../../../utils/constant/constant";
+import { bankList } from "../../../utils/constant/constant";
 import { convertIsoStringToDate } from "@/utils/custom-functions/custom-functions";
 import { RootState } from "@/redux/store";
 import UpdateBankConfig from "./update-bank-config";

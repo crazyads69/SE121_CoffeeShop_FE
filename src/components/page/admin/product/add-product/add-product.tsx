@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Image from "next/image";
+
 import { RootState } from "@/redux/store";
-import { clearMessage, setError } from "@/redux/slices/alert-slice";
+import { setError } from "@/redux/slices/alert-slice";
 import PostAddProduct from "@/api/product/post-add-product";
 import { productTypes } from "@/utils/constant/constant";
 import { formatCurrency } from "@/utils/custom-functions/custom-functions";

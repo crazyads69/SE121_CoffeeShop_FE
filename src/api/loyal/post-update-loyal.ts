@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { AnyAction } from "@reduxjs/toolkit";
 import { Loyal, updateLoyal } from "@/redux/slices/loyal-slice";
-import { setSuccess, setError } from "@/redux/slices/alert-slice";
+import { setError, setSuccess } from "@/redux/slices/alert-slice";
 import axiosClient from "@/utils/axios-client/axios-client";
 
 export default async function PostUpdateLoyal(

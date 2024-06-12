@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { clearMessage, setError } from "@/redux/slices/alert-slice";
+import { setError } from "@/redux/slices/alert-slice";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { Product, setProducts } from "@/redux/slices/product-slice";
 

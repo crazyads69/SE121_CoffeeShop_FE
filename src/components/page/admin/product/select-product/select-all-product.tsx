@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { setSelectedProduct, removeSelectedProducts } from "@/redux/slices/product-slice";
+import { removeSelectedProducts, setSelectedProduct } from "@/redux/slices/product-slice";
 
 export default function SelectAllProduct() {
     const dispatch = useDispatch();

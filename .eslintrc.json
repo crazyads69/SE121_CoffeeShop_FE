@@ -17,7 +17,7 @@
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended"
     ],
-    "plugins": ["import", "jsx-a11y", "react", "react-hooks", "prettier"],
+    "plugins": ["import", "jsx-a11y", "react", "react-hooks", "prettier", "unused-imports"],
     "parserOptions": {
         "ecmaVersion": 12,
         "sourceType": "module",
@@ -63,7 +63,23 @@
         "react-hooks/exhaustive-deps": "off",
         "react/require-default-props": "off",
         "no-unused-vars": "warn",
-        "@typescript-eslint/no-unused-vars": "warn"
+        "@typescript-eslint/no-unused-vars": "warn",
+        "unused-imports/no-unused-imports": "error",
+        "unused-imports/no-unused-vars": [
+            "warn",
+            {
+                "vars": "all",
+                "varsIgnorePattern": "^_",
+                "args": "after-used",
+                "argsIgnorePattern": "^_"
+            }
+        ],
+        "sort-imports": [
+            "error",
+            {
+                "ignoreDeclarationSort": true
+            }
+        ]
     },
     "settings": {
         "import/resolver": {

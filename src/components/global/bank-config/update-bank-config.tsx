@@ -1,15 +1,11 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import { useDispatch, useSelector } from "react-redux";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RootState } from "@/redux/store";
-import PostUpdateVoucher from "@/api/voucher/post-update-voucher";
-import voucherType from "@/components/page/admin/voucher/voucher-type/voucher-type";
-import { setError, clearMessage } from "@/redux/slices/alert-slice";
-import {
-    convertDateToServerFormat,
-    convertDateToUSFormat,
-} from "@/utils/custom-functions/custom-functions";
-import { bankList, voucherTypeList } from "@/utils/constant/constant";
+
+import { setError } from "@/redux/slices/alert-slice";
+
+import { bankList } from "@/utils/constant/constant";
 import PostBankConfig from "@/api/auth/post-bank-config";
 
 export interface UpdateBankConfigProps {

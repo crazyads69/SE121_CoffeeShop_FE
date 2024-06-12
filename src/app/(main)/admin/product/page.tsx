@@ -3,7 +3,7 @@
 
 "use client";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { RootState } from "@/redux/store";
 import useGetProductTotalPage from "@/hooks/product/useGetProductTotalPage";

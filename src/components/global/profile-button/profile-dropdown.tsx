@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { button } from "@material-tailwind/react";
+
 import { RootState } from "@/redux/store";
 import PostLogout from "@/api/auth/post-logout";
-import axiosClient from "@/utils/axios-client/axios-client";
+
 import { USER_ROLE } from "@/utils/constant/constant";
 
 export interface ProfileDropdownProps {

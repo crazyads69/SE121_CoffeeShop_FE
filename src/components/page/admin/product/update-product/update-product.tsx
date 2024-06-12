@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Product } from "@/redux/slices/product-slice";
 import { RootState } from "@/redux/store";
-import { setError, setSuccess } from "@/redux/slices/alert-slice";
+import { setError } from "@/redux/slices/alert-slice";
 import { formatImageURL } from "@/utils/custom-functions/custom-functions";
 import PostUpdateProduct from "@/api/product/post-update-product";
 

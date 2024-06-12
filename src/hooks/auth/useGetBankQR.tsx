@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { setError } from "@/redux/slices/alert-slice";

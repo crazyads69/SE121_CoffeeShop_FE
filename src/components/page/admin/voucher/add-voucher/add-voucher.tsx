@@ -6,8 +6,8 @@ import {
     convertDateToUSFormat,
     formatCurrency,
 } from "@/utils/custom-functions/custom-functions";
-import { clearMessage, setError, setSuccess } from "@/redux/slices/alert-slice";
-import axiosClient from "@/utils/axios-client/axios-client";
+import { clearMessage, setError } from "@/redux/slices/alert-slice";
+
 import PostAddVoucher from "@/api/voucher/post-add-voucher";
 
 export interface AddVoucherItemProps {

@@ -1,12 +1,10 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-shadow */
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import useGetBillingTotalPage from "./useGetBillingTotalPage";
-import { Invoice } from "@/redux/slices/invoice-slice";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
 import axiosClient from "@/utils/axios-client/axios-client";
-import { USER_ROLE } from "@/utils/constant/constant";
+
 import { setError } from "@/redux/slices/alert-slice";
 
 export default function useGetTotalIncome() {

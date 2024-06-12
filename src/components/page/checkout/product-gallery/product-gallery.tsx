@@ -4,7 +4,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Product } from "@/redux/slices/product-slice";
-import { formatImageURL, formatCurrency } from "@/utils/custom-functions/custom-functions";
+import { formatCurrency, formatImageURL } from "@/utils/custom-functions/custom-functions";
 import { addProductToCheckoutList } from "@/redux/slices/checkout-slice";
 
 export interface ProductGalleryProps {

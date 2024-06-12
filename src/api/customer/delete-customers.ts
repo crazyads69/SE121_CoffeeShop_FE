@@ -1,11 +1,7 @@
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { setError, setSuccess } from "@/redux/slices/alert-slice";
-import {
-    removeAllSelectedCustomers,
-    removeCustomer,
-    removeCustomerList,
-} from "@/redux/slices/customer-slice";
+import { removeAllSelectedCustomers, removeCustomerList } from "@/redux/slices/customer-slice";
 
 export default async function DeleteCustomers(
     selectedCustomerList: string[],

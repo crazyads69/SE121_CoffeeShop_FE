@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Product } from "@/redux/slices/product-slice";
 import SelectProduct from "@/components/page/admin/product/select-product/select-product";

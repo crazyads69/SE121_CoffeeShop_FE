@@ -1,16 +1,16 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from "react";
-import { Select, Option } from "@material-tailwind/react";
+
 import { Line } from "react-chartjs-2";
 import {
-    Chart as ChartJS,
     CategoryScale,
+    Chart as ChartJS,
+    Legend,
+    LineElement,
     LinearScale,
     PointElement,
-    LineElement,
     Title,
     Tooltip,
-    Legend,
 } from "chart.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

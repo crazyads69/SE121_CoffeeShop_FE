@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import path from "path";
+
 import { setError } from "@/redux/slices/alert-slice";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { RootState } from "@/redux/store";
-import { USER_ROLE } from "@/utils/constant/constant";
+
 import { Bank, setBankConfig } from "@/redux/slices/auth-slice";
 
 export default function useGetBankConfig() {

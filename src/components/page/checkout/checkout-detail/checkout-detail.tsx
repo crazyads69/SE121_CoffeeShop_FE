@@ -10,21 +10,20 @@ import { useReactToPrint } from "react-to-print";
 import Image from "next/image";
 import { RootState } from "@/redux/store";
 
-import { clearMessage, setError, setSuccess } from "@/redux/slices/alert-slice";
+import { setError, setSuccess } from "@/redux/slices/alert-slice";
 import {
     CheckoutItem,
     CheckoutList,
     updateCustomerPhone,
-    updateTableNumber,
     updateVoucherCode,
 } from "@/redux/slices/checkout-slice";
 import { Product } from "@/redux/slices/product-slice";
 import { formatCurrency } from "@/utils/custom-functions/custom-functions";
 
 import PostAddCheckout from "@/api/checkout/post-add-checkout";
-import PostVerifyVoucher from "@/api/checkout/post-verify-voucher";
+
 import PostGetTotalPrice from "@/api/checkout/post-get-total-price";
-import PostLoyalVerify from "@/api/checkout/post-loyal-verify";
+
 import { convertDateToUSFormat } from "../../../../utils/custom-functions/custom-functions";
 import useGetCheckoutQR from "@/hooks/checkout/useGetCheckoutQR";
 import PostCheckBank from "@/api/checkout/post-check-bank";

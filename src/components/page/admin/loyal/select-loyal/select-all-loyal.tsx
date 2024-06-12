@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearSelectedVouchers, setSelectedVouchers } from "@/redux/slices/voucher-slice";
+
 import { RootState } from "@/redux/store";
 import { removeAllSelectedLoyals, setSelectedLoyal } from "@/redux/slices/loyal-slice";
 

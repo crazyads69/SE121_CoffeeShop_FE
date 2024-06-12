@@ -1,6 +1,5 @@
 import { AnyAction, Dispatch } from "redux";
 import axiosClient from "@/utils/axios-client/axios-client";
-import { setSuccess } from "@/redux/slices/alert-slice";
 
 export default async function PostCheckBank(
     checkoutId: string,

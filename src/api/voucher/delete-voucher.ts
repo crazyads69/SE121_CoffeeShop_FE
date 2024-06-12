@@ -1,7 +1,7 @@
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { setError, setSuccess } from "@/redux/slices/alert-slice";
-import { removeVoucher, removeSelectedVoucher } from "@/redux/slices/voucher-slice";
+import { removeSelectedVoucher, removeVoucher } from "@/redux/slices/voucher-slice";
 
 export default async function DeleteVoucher(
     voucherCode: string,

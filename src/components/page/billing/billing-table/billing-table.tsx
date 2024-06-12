@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import useGetTotalIncome from "@/hooks/billing/useGetTotalIncome";
+
 import { Invoice } from "@/redux/slices/invoice-slice";
 import { convertIsoStringToDate, formatCurrency } from "@/utils/custom-functions/custom-functions";
 import StatusDropdown from "@/components/page/billing/status-dropdown/status-dropdown";

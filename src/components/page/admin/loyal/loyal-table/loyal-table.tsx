@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { Loyal } from "@/redux/slices/loyal-slice";
 import { formatCurrency } from "@/utils/custom-functions/custom-functions";
-import SelectVoucher from "../../voucher/select-voucher/select-voucher";
+
 import SelectAllLoyal from "../select-loyal/select-all-loyal";
 import LoyalDetail from "../loyal-detail/loyal-detail";
 import DeleteLoyalList from "../delete-loyal/delete-loyal-list";

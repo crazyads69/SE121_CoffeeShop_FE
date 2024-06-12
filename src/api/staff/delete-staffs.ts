@@ -1,7 +1,7 @@
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { setError, setSuccess } from "@/redux/slices/alert-slice";
-import { removeStaffList, clearSelectedStaff } from "@/redux/slices/staff-slice";
+import { clearSelectedStaff, removeStaffList } from "@/redux/slices/staff-slice";
 
 export default async function DeleteStaffs(
     selectedStaffList: string[],

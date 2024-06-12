@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import DeleteVoucher from "@/api/voucher/delete-voucher";
+
 import DeleteLoyal from "@/api/loyal/delete-loyal";
 
 interface DeleteLoyalItemProps {

@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 import { AnyAction } from "@reduxjs/toolkit";
-import { clearMessage, setError, setSuccess } from "@/redux/slices/alert-slice";
+import { setError, setSuccess } from "@/redux/slices/alert-slice";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { removeAllSelectedProducts } from "@/redux/slices/product-slice";
 

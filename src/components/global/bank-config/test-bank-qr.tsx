@@ -1,11 +1,8 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import useGetBankQR from "@/hooks/auth/useGetBankQR";
-import { bankList } from "@/utils/constant/constant";
-import { convertIsoStringToDate } from "@/utils/custom-functions/custom-functions";
-import bankConfig from "./bank-config";
-import UpdateBankConfig from "./update-bank-config";
+
 import Loading from "../loading/Loading";
 
 export interface TestBankQRProps {

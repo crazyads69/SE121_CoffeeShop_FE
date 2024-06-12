@@ -1,7 +1,7 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
-import { log } from "console";
-import { clearMessage, setError } from "@/redux/slices/alert-slice";
+
+import { setError } from "@/redux/slices/alert-slice";
 import axiosClient from "@/utils/axios-client/axios-client";
 import { USER_ROLE } from "@/utils/constant/constant";
 import { loginSuccess } from "@/redux/slices/auth-slice";

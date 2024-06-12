@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { clearMessage, setError, setSuccess } from "@/redux/slices/alert-slice";
-import axiosClient from "@/utils/axios-client/axios-client";
+import { setError } from "@/redux/slices/alert-slice";
+
 import PostAddCustomer from "@/api/customer/post-add-customer";
 
 export interface AddCustomerProps {

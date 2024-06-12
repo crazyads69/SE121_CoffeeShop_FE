@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { setSelectedStaff, clearSelectedStaff } from "@/redux/slices/staff-slice";
+import { clearSelectedStaff, setSelectedStaff } from "@/redux/slices/staff-slice";
 
 export default function SelectAllVoucher() {
     const dispatch = useDispatch();

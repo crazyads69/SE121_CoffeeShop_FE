@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import DeleteProduct from "@/api/product/delete-product";
-import { clearMessage } from "@/redux/slices/alert-slice";
 
 interface DeleteProductItemProps {
     productCode: string;

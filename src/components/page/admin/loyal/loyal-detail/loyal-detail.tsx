@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import { useState } from "react";
 import { Loyal } from "@/redux/slices/loyal-slice";
-import { Voucher } from "@/redux/slices/invoice-slice";
-import { formatCurrency, convertDate } from "@/utils/custom-functions/custom-functions";
-import DeleteVoucherItem from "../../voucher/delete-voucher/delete-voucher-item";
-import UpdateVoucher from "../../voucher/update-voucher/update-voucher";
+
+import { convertDate, formatCurrency } from "@/utils/custom-functions/custom-functions";
+
 import UpdateLoyal from "../update-loyal/update-loyal";
 import DeleteLoyalItem from "../delete-loyal/delete-loyal-item";
 
