@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import useGetTotalIncome from "@/hooks/billing/useGetTotalIncome";
 import { formatCurrency } from "@/utils/custom-functions/custom-functions";
 
@@ -6,7 +7,10 @@ export interface TotalIncomeProps {
 }
 
 export default function TotalIncome() {
-    const totalIncome = useGetTotalIncome();
+    const { totalIncome, fetchTotalIncome } = useGetTotalIncome();
+    useEffect(() => {
+        fetchTotalIncome();
+    }, []);
     return (
         <div className=" flex h-[2.93875rem] w-[11.375rem] flex-row items-center justify-between rounded-[0.625rem] bg-white px-[1rem] py-[0.75rem] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
             <p className="text-center font-sans text-[1rem]">
