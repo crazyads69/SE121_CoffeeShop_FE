@@ -18,29 +18,6 @@ import useGetTopProduct from "@/hooks/dashboard/useGetTopProduct";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-interface TopProduct {
-    productName: string;
-    sales: number;
-    revenue: number;
-}
-// Generate dummy data for top products chart
-const generateTopProductsData = (selectedMetric: string): { labels: string[]; data: number[] } => {
-    const topProductsData: TopProduct[] = [
-        { productName: "Trà sữa kem trứng cháy", sales: 1200, revenue: 2400 },
-        { productName: "Trà lài", sales: 750, revenue: 1500 },
-        { productName: "Cà phê muối", sales: 453, revenue: 1257 },
-        { productName: "Trà đào", sales: 500, revenue: 1400 },
-        { productName: "Matcha đá xay", sales: 275, revenue: 1700 },
-    ];
-    // Map the data to labels and data arrays for chart rendering (x-axis and y-axis)
-    const labels = topProductsData.map((product) => product.productName);
-    const data = topProductsData.map((product) =>
-        selectedMetric === "sales" ? product.sales : product.revenue,
-    );
-
-    return { labels, data };
-};
-
 export default function TopProduct() {
     const [selectedRange, setSelectedRange] = useState(ranges[0].value);
     const [startDate, setStartDate] = useState(ranges[0].startDate);
@@ -188,7 +165,9 @@ export default function TopProduct() {
                             label: "Số lượng",
                             data: topProducts.map((product) => product.value),
                             backgroundColor: "#3758F9",
-                            barThickness: 55,
+                            // barThickness: 55,
+                            categoryPercentage: 0.8, // controls the size of the outer bars, i.e., the categories
+                            barPercentage: 0.7, // controls the size of the inner bars, i.e., the bars themselves
                         },
                     ],
                 }}

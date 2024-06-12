@@ -296,7 +296,7 @@ items-center justify-start border-b border-[#000000] pb-[0.56rem] pl-[1rem] pt-[
                                     {showDropdown && (
                                         <div
                                             ref={typeDropdownRef}
-                                            className="absolute right-[19.75rem] top-[30rem] z-10 flex w-[11.625rem] flex-col rounded-md bg-white shadow-[0px_2px_8px_0px_rgba(0,0,0,0.16)]"
+                                            className="absolute right-[35%] top-[60%] z-10 flex w-[11.625rem] flex-col rounded-md bg-white shadow-[0px_2px_8px_0px_rgba(0,0,0,0.16)]"
                                         >
                                             {loyalTypeList.map((type) => (
                                                 <button

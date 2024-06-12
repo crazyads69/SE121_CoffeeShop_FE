@@ -156,7 +156,9 @@ export default function RecentProfit() {
                             label: "Doanh thu",
                             data: recentProfit.map((item) => item.value),
                             backgroundColor: "#3758F9",
-                            barThickness: 55,
+                            //  barThickness: 55,
+                            categoryPercentage: 0.8, // controls the size of the outer bars, i.e., the categories
+                            barPercentage: 0.7, // controls the size of the inner bars, i.e., the bars themselves
                         },
                     ],
                 }}
