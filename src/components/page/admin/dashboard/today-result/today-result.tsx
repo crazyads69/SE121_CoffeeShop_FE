@@ -47,11 +47,11 @@ export default function TodayResult({ todayResult }: TodayResultProps) {
                             stroke="#005B6F"
                         />
                     </svg>
-                    <div className="flex h-full flex-col items-start justify-start">
+                    <div className="flex h-full flex-col items-start justify-between">
                         <p className="select-none font-sans text-[1rem] font-bold">
                             {todayResult.total_invoice_yesterday} đơn đã xong
                         </p>
-                        <p className="select-none font-sans text-[2.25rem] font-bold text-[#005B6F]">
+                        <p className="select-none font-sans text-[2.25rem] font-bold whitespace-nowrap text-[#005B6F]">
                             {formatNumberToCurrency(todayResult.total_income_today)} đ
                         </p>
                         <p className="select-none font-sans text-[1rem] font-normal">
