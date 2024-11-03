@@ -10,11 +10,13 @@ import invoiceSlice from "./slices/invoice-slice";
 import staffSlice from "./slices/staff-slice";
 import voucherSlice from "./slices/voucher-slice";
 import loyalSlice from "./slices/loyal-slice";
+import chatSlice from "./slices/chat-slice";
 
 const store = configureStore({
     reducer: {
         alert: alertSlice,
         auth: authSlice,
+        chat: chatSlice,
         checkout: checkoutSlice,
         customer: customerSlice,
         loyal: loyalSlice,

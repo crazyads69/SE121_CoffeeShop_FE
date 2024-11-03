@@ -11,6 +11,7 @@ import AlertMessage from "../../components/global/alert/alert";
 import ProfileButton from "@/components/global/profile-button/profile-button";
 import { USER_ROLE } from "@/utils/constant/constant";
 import BankConfig from "@/components/global/bank-config/bank-config";
+import ChatFAB from "@/components/global/chat-fab/chart-fab";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -45,6 +46,8 @@ export default function Layout({ children }: LayoutProps) {
             {/* Navbar */}
             <NavBar />
             <AlertMessage className="fixed top-[2%] right-[2%] mr-[1.25rem] mt-[1.25rem] h-[3.75rem] w-[28.5625rem]" />
+            {/** Chat FAB only render when user is admin role */}
+            {user?.role === USER_ROLE.ADMIN && <ChatFAB />}
             {showAccountModal && <AccountDetail setShowAccountModal={setShowAccountModal} />}
             {showBankConfig && <BankConfig setShowBankConfig={setShowBankConfig} />}
             {/** Content */}
