@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface Chat {
-    id: number;
+    id: string;
     message: string;
-    task: string;
+    // task: string;
     is_bot: boolean;
 }
 

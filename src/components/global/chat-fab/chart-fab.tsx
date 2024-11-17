@@ -1,11 +1,16 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader2, MessageCircle, Send, X } from "lucide-react";
+
+import { v4 as uuid } from "uuid";
 import { RootState } from "../../../redux/store";
-import { addChatSuccess } from "@/redux/slices/chat-slice";
-import PostTaskClassifier from "@/api/chat/post-task-classifier";
+import { Chat, addChatSuccess } from "@/redux/slices/chat-slice";
+import PostChatBot from "@/api/chat/post-chatbot";
+import MarkdownRenderer from "@/utils/markdown-renderer/markdown-renderer";
 
 function ChatFAB() {
     const [isOpen, setIsOpen] = useState(false);
@@ -47,24 +52,25 @@ function ChatFAB() {
             }
         };
 
-        const preventDefault = (e: Event) => {
-            e.preventDefault();
-        };
-
         if (isOpen) {
             document.body.style.overflow = "hidden";
             document.addEventListener("wheel", preventScroll, { passive: false });
             document.addEventListener("touchmove", preventScroll, { passive: false });
-            document.addEventListener("keydown", preventDefault);
+            // Remove the keydown event listener or modify it to only prevent specific keys
         }
 
         return () => {
             document.body.style.overflow = "unset";
             document.removeEventListener("wheel", preventScroll);
             document.removeEventListener("touchmove", preventScroll);
-            document.removeEventListener("keydown", preventDefault);
+            // Update cleanup if you keep a modified keydown listener
         };
     }, [isOpen]);
+
+    // updaten chat list when chatList change to local storage
+    useEffect(() => {
+        localStorage.setItem("chat", JSON.stringify(chatList));
+    }, [chatList]);
 
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
         if ((e.target as HTMLElement).closest(".resize-handle")) return;
@@ -146,16 +152,15 @@ function ChatFAB() {
         e.preventDefault();
         if (!inputMessage.trim()) return;
 
-        const newMessage = {
-            id: chatList.length + 1,
+        const newMessage: Chat = {
+            id: uuid(),
             message: inputMessage,
-            task: "chat",
             is_bot: false,
         };
         const message = inputMessage;
         setInputMessage("");
         dispatch(addChatSuccess(newMessage));
-        await PostTaskClassifier(message, dispatch, chatList);
+        await PostChatBot(message, dispatch, chatList);
     };
 
     const handleButtonClick = (e: React.MouseEvent) => {
@@ -230,13 +235,36 @@ function ChatFAB() {
                                 className={`flex ${chat.is_bot ? "justify-start" : "justify-end"}`}
                             >
                                 <div
-                                    className={`max-w-[80%] p-3 rounded-lg ${
+                                    className={`max-w-[80%] markdown-content p-3 rounded-lg ${
                                         chat.is_bot
                                             ? "bg-white text-gray-800 shadow-md"
                                             : "bg-[#3758F9] text-white shadow-sm"
                                     }`}
                                 >
-                                    {chat.message}
+                                    {/* Render markdown */}
+                                    {/* <ReactMarkdown
+                                        remarkPlugins={[remarkGfm, remarkBreaks]}
+                                        rehypePlugins={[rehypeRaw]}
+                                        components={{
+                                            table({ children }) {
+                                                return (
+                                                    <table>
+                                                        <tbody>{children}</tbody>
+                                                    </table>
+                                                );
+                                            },
+                                            th({ children }) {
+                                                return <th>{children}</th>;
+                                            },
+                                            td({ children }) {
+                                                return <td>{children}</td>;
+                                            },
+                                        }}
+                                    >
+                                        {chat.message}
+                                    </ReactMarkdown> */}
+                                    <MarkdownRenderer content={chat.message} />
+                                    {/* <MarkdownRenderer content={chat.message} /> */}
                                 </div>
                             </div>
                         ))}

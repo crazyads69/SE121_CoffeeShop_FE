@@ -1,5 +1,6 @@
 import { useLayoutEffect } from "react";
 import { useDispatch } from "react-redux";
+import { v4 as uuid } from "uuid";
 import { loginSuccess } from "../slices/auth-slice";
 import { fetchChatSuccess } from "../slices/chat-slice";
 
@@ -17,9 +18,8 @@ export default function GetLocalStorage({ children }: { children: React.ReactNod
             dispatch(
                 fetchChatSuccess([
                     {
-                        id: 1,
+                        id: uuid(), // Generate random ID
                         message: "Xin chào, tôi có thể giúp gì cho bạn?",
-                        task: "chat",
                         is_bot: true,
                     },
                 ]),

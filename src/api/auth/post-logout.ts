@@ -9,6 +9,7 @@ export default async function PostLogout(router: AppRouterInstance, dispatch: Di
         if (res.status === 204) {
             localStorage.removeItem("ACCESS_TOKEN");
             localStorage.removeItem("user");
+            localStorage.removeItem("chat");
             router.push("/login");
         } else if (res.data.message) {
             dispatch(setError(res.data.message));
