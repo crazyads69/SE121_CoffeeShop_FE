@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loader2, MessageCircle, Send, X } from "lucide-react";
 
 import { v4 as uuid } from "uuid";
+import useSpeechToText from "react-hook-speech-to-text";
 import { RootState } from "../../../redux/store";
 import { Chat, addChatSuccess } from "@/redux/slices/chat-slice";
 import PostChatBot from "@/api/chat/post-chatbot";
@@ -34,6 +35,40 @@ function ChatFAB() {
     const initialSize = useRef({ width: 0, height: 0 });
     const dragStartTime = useRef<number>(0);
     const dragThreshold = useRef<{ startX: number; startY: number }>({ startX: 0, startY: 0 });
+    const { error, interimResult, isRecording, results, startSpeechToText, stopSpeechToText } =
+        useSpeechToText({
+            continuous: true,
+            useLegacyResults: false,
+            speechRecognitionProperties: {
+                lang: "vi-VN",
+                interimResults: true,
+            },
+        });
+
+    // Check if the browser supports speech recognition
+    useEffect(() => {
+        if (error) {
+            console.log("Speech recognition not supported");
+        }
+    }, []);
+
+    // Update input message when speech recognition result changes
+    // useEffect(() => {
+    //     if (results.length > 0) {
+    //         // Get the last result
+    //         const lastResult = results[results.length - 1];
+    //         if (typeof lastResult !== "string" && lastResult.transcript) {
+    //             setInputMessage(lastResult.transcript);
+    //         }
+    //     }
+    // }, [results]);
+
+    // Update input message when interim result changes
+    useEffect(() => {
+        if (interimResult) {
+            setInputMessage(interimResult);
+        }
+    }, [interimResult]);
 
     useEffect(() => {
         if (chatList.length > 0 && chatContainerRef.current) {
@@ -281,6 +316,41 @@ function ChatFAB() {
                                 placeholder="Bạn muốn hỏi gì?"
                                 className="flex-1 p-2 h-10 border rounded-lg focus:outline-none focus:ring-0"
                             />
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    if (isRecording) {
+                                        stopSpeechToText();
+                                    } else {
+                                        startSpeechToText();
+                                    }
+                                }}
+                                className="bg-[#3758F9] text-white p-2 h-10 w-10 items-center justify-center flex rounded-lg hover:bg-[#1C3FB7] transition-colors"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    {isRecording ? (
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M5 12h2m2 0h8m2 0h2"
+                                        />
+                                    ) : (
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M8 5v14l11-7z"
+                                        />
+                                    )}
+                                </svg>
+                            </button>
                             <button
                                 type="submit"
                                 disabled={isLoading}
